@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart-container, .main-container {
+      display: flex;
+      flex-direction: row;
+      height: 50vh;
+    }
+
+    .chart {
+      flex: 1 1 auto;
+      max-width: 50%;
+    }
+
+    .sidebar {
+      flex: 1 1 auto;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (max-width: 800px) {
+      .chart-container, .main-container {
+        flex-direction: column;
+      }
+
+      .chart {
+        max-width: 100%;
+      }
+    }
+
+    #info {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+
+    #sliders div {
+      margin: 2px 0;
+    }
+
+    #sliders label {
+      display: block;
+      font-size: 1.0em;
+      margin: 2px 0;
+    }
+
+    #sliders input[type="range"] {
+      width: 75%;
+      cursor: pointer;
+    }
+
+    #sliders {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slider-section-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .slider-section {
+    flex: 1;
+    padding: 10px;
+    min-width: 300px;
+  }
+
+  .slider-section h3 {
+    margin-bottom: 10px;
+  }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="chart-container">
+      <div class="chart" id="economicChart"></div>
+      <div class="chart" id="costChart"></div>
+    </div>
+    <div class="sidebar">
+      <div id="info"></div>
+      <div id="sliders">
+        <div class="slider-section-wrapper">
+          <div class="slider-section">
+            <label for="primaryUse">1次利用:</label>
+            <select id="primaryUse"></select>
+            <div id="primary-sliders"></div>
+          </div>
+          <div class="slider-section">
+            <label for="secondaryUse">2次利用:</label>
+            <select id="secondaryUse"></select>
+            <div id="secondary-sliders"></div>
+          </div>
+        </div>
+        <div class="slider-section">
+          <h3>共通パラメーター</h3>
+          <div id="common-sliders"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="settings.js"></script>
+  <script src="data.js"></script>
+  <script src="sliders.js"></script>
+  <script src="costs.js"></script>
+  <script src="plots.js"></script>
+  <script src="info.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
