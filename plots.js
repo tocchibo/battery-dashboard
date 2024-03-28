@@ -23,9 +23,6 @@ function prepareGraphData(primaryUse, secondaryUse, inputData) {
   const secondaryApplication = inputData.applications.find((app) => app.name === secondaryUse);
 
   if (primaryApplication && secondaryApplication) {
-    // 経済利得
-    const primaryEconomicGainPerKWh = primaryApplication.economicGain;
-    const secondaryEconomicGainPerKWh = secondaryApplication.economicGain;
 
     // 各種コスト計算
     const costs = calculatePrimaryAndSecondaryCosts(primaryApplication, secondaryApplication, inputData)
@@ -66,9 +63,14 @@ function prepareGraphData(primaryUse, secondaryUse, inputData) {
                                               costs.secondaryCosts.otherCostPerKWh +
                                               costs.secondaryCosts.monitoringCostPerKWh;
 
+    // 経済利得
+    const primaryGainPerKWh = calculateGainPerKWh(primaryApplication, inputData)
+    const secondaryGainPerKWh = calculateGainPerKWh(secondaryApplication, inputData)
+    const primaryTotalGainPerKWh = primaryGainPerKWh.capex + primaryGainPerKWh.opex + primaryGainPerKWh.subsidyPerKWh;
+    const secondaryTotalGainPerKWh = secondaryGainPerKWh.capex + secondaryGainPerKWh.opex + secondaryGainPerKWh.subsidyPerKWh;
 
     economicChartData = [
-      createBarTrace([primaryUse, secondaryUse], [primaryEconomicGainPerKWh, secondaryEconomicGainPerKWh], '経済利得'),
+      createBarTrace([primaryUse, secondaryUse], [primaryTotalGainPerKWh, secondaryTotalGainPerKWh], '経済利得'),
       createBarTrace([primaryUse, secondaryUse], [primaryTotalCostPerKWh, secondaryTotalCostPerKWh], '既存電池コスト'),
       createBarTrace([primaryUse, secondaryUse], [primaryCascadeBatteryCostPerKWh, secondaryCascadeBatteryCostPerKWh], 'カスケード電池コスト')
     ];
@@ -135,7 +137,7 @@ function updatePlots() {
     };
 
     Plotly.newPlot('economicChart', graphData.economicChartData, layout);
-    updateInfo(primaryUse, secondaryUse, graphData.economicChartData);
+    // updateInfo(primaryUse, secondaryUse, graphData.economicChartData);
   }
   if (graphData.costChartData) {
     const layout = {

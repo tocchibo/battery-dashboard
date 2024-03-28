@@ -4,7 +4,7 @@ function calculateSystemSpecs(application, inputData) {
     const { cellData } = inputData;
   
     // セル容量(Wh)
-    const cellCapacityWh = cellData.voltage * cellData.capacity;
+    const cellCapacityWh = cellData.voltage * cellData.capacityAh;
     // セル重量(kg)
     const cellWeight = cellCapacityWh / cellData.weightCapacity;
     // モジュール電圧(V)
@@ -56,11 +56,11 @@ function calculateSystemSpecs(application, inputData) {
   
     const moduleCost =
       (socController +
-        moduleTerminal +
-        otherComponents +
-        gasValve +
-        interconnection +
-        processingCostModule) * inputData.exchangeRate;
+       moduleTerminal +
+       otherComponents +
+       gasValve +
+       interconnection +
+       processingCostModule) * inputData.exchangeRate;
   
     // パックコスト[ドル/パック]
     const currentVoltageSensing = 100;
@@ -78,17 +78,17 @@ function calculateSystemSpecs(application, inputData) {
   
     const packCost =
       (currentVoltageSensing +
-        temperatureControlSystem +
-        batteryTerminal +
-        busBarsPerModuleRow +
-        batteryJacket +
-        moduleControl +
-        automaticBatteryDisconnect +
-        manualBatteryDisconnect +
-        parallelModulesPacks +
-        acSystemAddition +
-        cellHeaterSystem +
-        processingCostPack) * inputData.exchangeRate;
+       temperatureControlSystem +
+       batteryTerminal +
+       busBarsPerModuleRow +
+       batteryJacket +
+       moduleControl +
+       automaticBatteryDisconnect +
+       manualBatteryDisconnect +
+       parallelModulesPacks +
+       acSystemAddition +
+       cellHeaterSystem +
+       processingCostPack) * inputData.exchangeRate;
   
     return {
       moduleCost, // [円/モジュール]
@@ -142,15 +142,14 @@ function calculateSystemSpecs(application, inputData) {
     const monitoringCostPerKWh = calculateMonitoringCost(application, systemSpecs, inputData);
   
     // セルコスト
-    // const cellCostPerKWh = parseFloat(document.getElementById('pricePerKWh-slider').value);
     const cellCostPerKWh = inputData.cellData.pricePerKWh;
     // モジュール製造コスト
     const moduleCostPerKWh = BatteryCosts.moduleCost * systemData.packsPerSystem * packData.modulesPerPack / systemCapacity;
     // パック製造コスト
     const packCostPerKWh = BatteryCosts.packCost * systemData.packsPerSystem / systemCapacity;
     // PCSコスト
-    const pcsCostPerKWh = systemData.pcsCostPerKWh;
-    const pcsCostCascadePerKWh = systemData.pcsCostCascadePerKWh;
+    const pcsCostPerKWh = systemData.pcsCostPerKWh;  // 新品
+    const pcsCostCascadePerKWh = systemData.pcsCostCascadePerKWh;  // カスケード（量産効果が出ずコスト増を想定）
     // 工事費
     const constructionCostPerKWh = systemData.constructionCostPerKWh;
     // その他コスト
