@@ -13,7 +13,7 @@ function loadData(theme) {
     gridMinPowerPrice: 5,  // 系統最低電力価格(円/kWh)
     retailPowerPrice: 30,  // 小売電力価格(円/kWh)
     cellData: {
-      pricePerKWh: 12960,
+      pricePerKWh: 12960,  // セル価格[円/kWh]
       voltage: 3.2,  // セル電圧[V]
       capacityAh: 52,  // セル容量[Ah]
       weightCapacity: 150,  // セル1kg当たり容量[Wh/kg]

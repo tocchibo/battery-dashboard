@@ -66,12 +66,16 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    gap: 5px; /* 一次利用と二次利用の間に20pxの隙間を追加 */
   }
 
   .slider-section {
     flex: 1;
     padding: 10px;
     min-width: 300px;
+    background-color: #f0f0f0; /* 薄いグレーの背景色を追加 */
+    border-radius: 5px; /* 角を丸くする */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 薄い影をつける */
   }
 
   .slider-section h3 {
@@ -102,7 +106,6 @@
           </div>
         </div>
         <div class="slider-section">
-          <h3>共通パラメーター</h3>
           <div id="common-sliders"></div>
         </div>
       </div>

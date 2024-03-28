@@ -198,8 +198,8 @@ function calculateSystemSpecs(application, inputData) {
   }
 
   // 1次利用・2次利用それぞれのコストを計算する
-  // スライダーでコントロールする項目もここで設定(するようにする予定)
   function calculatePrimaryAndSecondaryCosts(primaryApplication, secondaryApplication, inputData) {
+
     // 蓄電池コスト
     const primaryCosts = calculateTotalCostPerKWh(primaryApplication, inputData);
     const secondaryCosts = calculateTotalCostPerKWh(secondaryApplication, inputData);
