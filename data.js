@@ -7,7 +7,7 @@ function loadData(theme) {
     leaseRecoveryRate: 0.2,  // リース回収率
     gasolinePricePerLiter: 200, // ガソリン価格(円/L)
     dieselPricePerLiter: 180, // 軽油価格(円/L)
-    sunnyDaysRatio: 0.8, // 晴天の割合
+    sunnyDaysRatio: 0.6, // 晴天の割合
     gridAveragePowerPrice: 12,  // 系統平均電力価格(円/kWh)
     gridMaxPowerPrice: 25,  // 系統最高電力価格(円/kWh)
     gridMinPowerPrice: 5,  // 系統最低電力価格(円/kWh)
