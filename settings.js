@@ -40,20 +40,18 @@ const settings = {
       label: "リース料配分 [%]",
       category: "common"
     },
-    primaryPcsCostPercent: {
+    primaryPcsCostCascadePerKWh: {
       min: 0,
-      max: 200,
-      value: 100,
-      step: 1,
-      label: "1次利用PCSコスト変化 [%]",
+      max: 100000,
+      step: 100,
+      label: "1次利用PCSコスト [円/kWh]",
       category: "primary"
     },
-    secondaryPcsCostPercent: {
+    secondaryPcsCostCascadePerKWh: {
       min: 0,
-      max: 200,
-      value: 100,
-      step: 1,
-      label: "2次利用PCSコスト変化 [%]",
+      max: 100000,
+      step: 100,
+      label: "2次利用PCSコスト [円/kWh]",
       category: "secondary"
     },
   },

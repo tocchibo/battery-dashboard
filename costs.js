@@ -207,9 +207,9 @@ function calculateSystemSpecs(application, inputData) {
     // スライダーでコントロールする項目
     primaryCosts.cellCostPerKWh = parseFloat(document.getElementById('pricePerKWh-slider').value)
     secondaryCosts.cellCostPerKWh = parseFloat(document.getElementById('pricePerKWh-slider').value)
-    primaryCosts.pcsCostCascadePerKWh *= parseFloat(document.getElementById('primaryPcsCostPercent-slider').value) / 100
-    secondaryCosts.pcsCostCascadePerKWh *= parseFloat(document.getElementById('secondaryPcsCostPercent-slider').value) / 100
-    
+    primaryCosts.pcsCostCascadePerKWh = parseFloat(document.getElementById('primaryPcsCostCascadePerKWh-slider').value);
+    secondaryCosts.pcsCostCascadePerKWh = parseFloat(document.getElementById('secondaryPcsCostCascadePerKWh-slider').value);
+      
     primaryCosts.batteryCostPerKWh = primaryCosts.cellCostPerKWh + primaryCosts.moduleCostPerKWh + primaryCosts.packCostPerKWh;
     secondaryCosts.batteryCostPerKWh = secondaryCosts.cellCostPerKWh + secondaryCosts.moduleCostPerKWh + secondaryCosts.packCostPerKWh;
    

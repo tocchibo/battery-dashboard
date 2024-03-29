@@ -13,6 +13,12 @@ function createSliders() {
     const setting = sliderSettings[key];
     const container = document.createElement('div');
 
+    if (key === 'primaryPcsCostCascadePerKWh' || key === 'secondaryPcsCostCascadePerKWh') {
+      const selectedApplication = document.getElementById(key.startsWith('primary') ? 'primaryUse' : 'secondaryUse').value;
+      const application = loadData().applications.find(app => app.name === selectedApplication);
+      setting.value = application.systemData.pcsCostCascadePerKWh;
+    }
+    
     const label = document.createElement('label');
     label.htmlFor = key + '-slider';
     label.textContent = setting.label + ': ';

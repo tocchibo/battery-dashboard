@@ -21,13 +21,26 @@ function populateDropdowns() {
   secondaryUseDropdown.value = applications[1];
 }
 
+function updateSliders() {
+  const primaryUse = document.getElementById('primaryUse').value;
+  const secondaryUse = document.getElementById('secondaryUse').value;
+
+  const inputData = loadData();
+  const primaryApplication = inputData.applications.find(app => app.name === primaryUse);
+  const secondaryApplication = inputData.applications.find(app => app.name === secondaryUse);
+
+  document.getElementById('primaryPcsCostCascadePerKWh-slider').value = primaryApplication.systemData.pcsCostCascadePerKWh;
+  document.getElementById('secondaryPcsCostCascadePerKWh-slider').value = secondaryApplication.systemData.pcsCostCascadePerKWh;
+}
+
 function init() {
   populateDropdowns();
   createSliders();
   updatePlots();
 
-  document.getElementById('primaryUse').addEventListener('change', updatePlots);
-  document.getElementById('secondaryUse').addEventListener('change', updatePlots);
+  document.getElementById('primaryUse').addEventListener('change', updateSliders);
+  document.getElementById('secondaryUse').addEventListener('change', updateSliders);
+
 }
 
 init();
