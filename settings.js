@@ -30,7 +30,8 @@ const settings = {
       value: 12960,
       step: 10,
       label: "セル価格 [円/kWh]",
-      category: "common"
+      category: "common",
+      dataProperty: "cellData.pricePerKWh"
     },
     costAllocationRate: {
       min: 0,
@@ -38,7 +39,8 @@ const settings = {
       value: 50,
       step: 1,
       label: "リース料配分 [%]",
-      category: "common"
+      category: "common",
+      dataProperty: "costAllocationRate"
     },
     primaryPcsCostCascadePerKWh: {
       min: 0,

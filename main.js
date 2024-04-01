@@ -34,7 +34,9 @@ function updateSliders() {
     if (setting.dataProperty) {
       const value = key.startsWith('primary')
         ? getNestedValue(primaryApplication, setting.dataProperty)
-        : getNestedValue(secondaryApplication, setting.dataProperty);
+        : key.startsWith('secondary')
+        ? getNestedValue(secondaryApplication, setting.dataProperty)
+        : getNestedValue(inputData, setting.dataProperty);
       document.getElementById(key + '-slider').value = value;
       document.getElementById(key + '-input').value = value;
       document.getElementById(key + '-value').textContent = value;
