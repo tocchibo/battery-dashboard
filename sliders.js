@@ -65,14 +65,14 @@ function createSliders() {
       const value = this.value;
       document.getElementById(key + '-value').textContent = Number(value).toLocaleString();
       document.getElementById(key + '-input').value = value;
-      updatePlots();
+      updateInputDataFromSliders();
     };
 
     input.oninput = function() {
       const value = this.value;
       document.getElementById(key + '-value').textContent = Number(value).toLocaleString();
       document.getElementById(key + '-slider').value = value;
-      updatePlots();
+      updateInputDataFromSliders();
     };
   });
 }

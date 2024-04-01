@@ -200,18 +200,18 @@ function calculateSystemSpecs(application, inputData) {
   // 1次利用・2次利用それぞれのコストを計算する
   function calculatePrimaryAndSecondaryCosts(primaryApplication, secondaryApplication, inputData) {
 
-    // 蓄電池コスト
-    const primaryCosts = calculateTotalCostPerKWh(primaryApplication, inputData);
-    const secondaryCosts = calculateTotalCostPerKWh(secondaryApplication, inputData);
+  // 蓄電池コスト
+  const primaryCosts = calculateTotalCostPerKWh(primaryApplication, inputData);
+  const secondaryCosts = calculateTotalCostPerKWh(secondaryApplication, inputData);
 
-    // スライダーでコントロールする項目
-    primaryCosts.cellCostPerKWh = parseFloat(document.getElementById('pricePerKWh-slider').value)
-    secondaryCosts.cellCostPerKWh = parseFloat(document.getElementById('pricePerKWh-slider').value)
-    primaryCosts.pcsCostCascadePerKWh = parseFloat(document.getElementById('primaryPcsCostCascadePerKWh-slider').value);
-    secondaryCosts.pcsCostCascadePerKWh = parseFloat(document.getElementById('secondaryPcsCostCascadePerKWh-slider').value);
-      
-    primaryCosts.batteryCostPerKWh = primaryCosts.cellCostPerKWh + primaryCosts.moduleCostPerKWh + primaryCosts.packCostPerKWh;
-    secondaryCosts.batteryCostPerKWh = secondaryCosts.cellCostPerKWh + secondaryCosts.moduleCostPerKWh + secondaryCosts.packCostPerKWh;
-   
-    return {primaryCosts, secondaryCosts};
+  // スライダーでコントロールする項目
+  primaryCosts.cellCostPerKWh = inputData.cellData.pricePerKWh;
+  secondaryCosts.cellCostPerKWh = inputData.cellData.pricePerKWh;
+  primaryCosts.pcsCostCascadePerKWh = primaryApplication.systemData.pcsCostCascadePerKWh;
+  secondaryCosts.pcsCostCascadePerKWh = secondaryApplication.systemData.pcsCostCascadePerKWh;
+    
+  primaryCosts.batteryCostPerKWh = primaryCosts.cellCostPerKWh + primaryCosts.moduleCostPerKWh + primaryCosts.packCostPerKWh;
+  secondaryCosts.batteryCostPerKWh = secondaryCosts.cellCostPerKWh + secondaryCosts.moduleCostPerKWh + secondaryCosts.packCostPerKWh;
+ 
+  return {primaryCosts, secondaryCosts};
   }

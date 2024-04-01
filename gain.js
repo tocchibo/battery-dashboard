@@ -52,10 +52,10 @@ function calculateGainPerKWh(application, inputData) {
     const packCapacity = moduleCapacity * packData.modulesPerPack;
     // システム容量(kWh)
     const systemCapacity = packCapacity * systemData.packsPerSystem;
-
+  
     // CAPEX由来の利得
     let capexReductionGainPerKWh = 0;
-
+  
     if (
         application.capexScenario === "既存装置との価格差"
     ) {
@@ -64,15 +64,15 @@ function calculateGainPerKWh(application, inputData) {
     
     // OPEX由来の利得
     let operationGainPerKWh = 0;
-
+  
     if ( application.opexScenario === "電気代と既存エネルギー代の価格差" ) {
         const { retailPowerPrice } = inputData;
         const { yearsOfUse, fuelType, fuelEfficiency, electricEfficiency, annualMileage } = application;
-
+  
         const annualFuelConsumption = annualMileage / fuelEfficiency;
         const electricityConsumption = annualMileage / electricEfficiency;
         const fuelPricePerLiter = inputData[fuelType + 'PricePerLiter']
-
+  
         operationGainPerKWh = (fuelPricePerLiter * annualFuelConsumption - retailPowerPrice * electricityConsumption) * yearsOfUse / systemCapacity;
     } else if ( application.opexScenario === "余剰電力と日中最高電力価格との価格差" ) {
         operationGainPerKWh = inputData.sunnyDaysRatio * 
@@ -82,10 +82,10 @@ function calculateGainPerKWh(application, inputData) {
     }
     
     const subsidyPerKWh = application.subsidy / systemCapacity
-
+  
     return {
         capex: capexReductionGainPerKWh,
         opex: operationGainPerKWh,
         subsidyPerKWh: subsidyPerKWh
     };
-}
+  }

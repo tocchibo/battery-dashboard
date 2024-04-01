@@ -25,7 +25,7 @@ function prepareGraphData(primaryUse, secondaryUse, inputData) {
   if (primaryApplication && secondaryApplication) {
 
     // 各種コスト計算
-    const costs = calculatePrimaryAndSecondaryCosts(primaryApplication, secondaryApplication, inputData)
+    const costs = calculatePrimaryAndSecondaryCosts(primaryApplication, secondaryApplication, inputData);
 
     // 新品蓄電池コスト
     const primaryTotalCostPerKWh = costs.primaryCosts.batteryCostPerKWh +
@@ -47,9 +47,9 @@ function prepareGraphData(primaryUse, secondaryUse, inputData) {
                               reconfigurationCostPerKWh;
 
     // リース回収率と按分比率を考慮して決定するリース料
-    const costAllocationRate = parseFloat(document.getElementById('costAllocationRate-slider').value) / 100
-    const primaryLeaseCostPerKWh = cascadeCostPerKWh * costAllocationRate * (1 + inputData.leaseRecoveryRate)
-    const secondaryLeaseCostPerKWh = cascadeCostPerKWh * (1 - costAllocationRate) * (1 + inputData.leaseRecoveryRate)
+    const costAllocationRate = inputData.costAllocationRate;
+    const primaryLeaseCostPerKWh = cascadeCostPerKWh * costAllocationRate * (1 + inputData.leaseRecoveryRate);
+    const secondaryLeaseCostPerKWh = cascadeCostPerKWh * (1 - costAllocationRate) * (1 + inputData.leaseRecoveryRate);
 
     // カスケードでユーザーが負担するコスト
     const primaryCascadeBatteryCostPerKWh = primaryLeaseCostPerKWh +
@@ -64,10 +64,11 @@ function prepareGraphData(primaryUse, secondaryUse, inputData) {
                                               costs.secondaryCosts.monitoringCostPerKWh;
 
     // 経済利得
-    const primaryGainPerKWh = calculateGainPerKWh(primaryApplication, inputData)
-    const secondaryGainPerKWh = calculateGainPerKWh(secondaryApplication, inputData)
+    const primaryGainPerKWh = calculateGainPerKWh(primaryApplication, inputData);
+    const secondaryGainPerKWh = calculateGainPerKWh(secondaryApplication, inputData);
     const primaryTotalGainPerKWh = primaryGainPerKWh.capex + primaryGainPerKWh.opex + primaryGainPerKWh.subsidyPerKWh;
     const secondaryTotalGainPerKWh = secondaryGainPerKWh.capex + secondaryGainPerKWh.opex + secondaryGainPerKWh.subsidyPerKWh;
+
 
     economicChartData = [
       createBarTrace([primaryUse, secondaryUse], [primaryTotalGainPerKWh, secondaryTotalGainPerKWh], '経済利得'),
@@ -120,7 +121,6 @@ function updatePlots() {
   const primaryUse = document.getElementById('primaryUse').value;
   const secondaryUse = document.getElementById('secondaryUse').value;
 
-  const inputData = loadData();
   const graphData = prepareGraphData(primaryUse, secondaryUse, inputData);
 
   if (graphData.economicChartData) {

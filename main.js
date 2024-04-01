@@ -50,12 +50,12 @@ function getNestedValue(obj, propertyPath) {
 
 function init() {
   populateDropdowns();
+  inputData = loadData();
   createSliders();
   updatePlots();
 
   document.getElementById('primaryUse').addEventListener('change', updateSliders);
   document.getElementById('secondaryUse').addEventListener('change', updateSliders);
-
 }
 
 init();

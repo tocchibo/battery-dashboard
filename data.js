@@ -1,3 +1,24 @@
+let inputData;
+
+function updateInputDataFromSliders() {
+  if (inputData) {
+    inputData.cellData.pricePerKWh = parseFloat(document.getElementById('pricePerKWh-slider').value);
+    
+    // 他のスライダについても同様に更新
+    inputData.costAllocationRate = parseFloat(document.getElementById('costAllocationRate-slider').value) / 100;
+    
+    // 1次利用と2次利用のアプリケーションを取得
+    const primaryApplication = inputData.applications.find(app => app.name === document.getElementById('primaryUse').value);
+    const secondaryApplication = inputData.applications.find(app => app.name === document.getElementById('secondaryUse').value);
+    
+    // 1次利用と2次利用のPCSコストを更新
+    primaryApplication.systemData.pcsCostCascadePerKWh = parseFloat(document.getElementById('primaryPcsCostCascadePerKWh-slider').value);
+    secondaryApplication.systemData.pcsCostCascadePerKWh = parseFloat(document.getElementById('secondaryPcsCostCascadePerKWh-slider').value);
+    
+    updatePlots(); // スライダの値が変更されたときにグラフを更新
+  }
+}
+
 function loadData(theme) {
   const inputData = {
     exchangeRate: 144,  // 為替レート[円/ドル]
