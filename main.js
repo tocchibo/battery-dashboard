@@ -29,8 +29,23 @@ function updateSliders() {
   const primaryApplication = inputData.applications.find(app => app.name === primaryUse);
   const secondaryApplication = inputData.applications.find(app => app.name === secondaryUse);
 
-  document.getElementById('primaryPcsCostCascadePerKWh-slider').value = primaryApplication.systemData.pcsCostCascadePerKWh;
-  document.getElementById('secondaryPcsCostCascadePerKWh-slider').value = secondaryApplication.systemData.pcsCostCascadePerKWh;
+  Object.keys(settings.sliders).forEach(key => {
+    const setting = settings.sliders[key];
+    if (setting.dataProperty) {
+      const value = key.startsWith('primary')
+        ? getNestedValue(primaryApplication, setting.dataProperty)
+        : getNestedValue(secondaryApplication, setting.dataProperty);
+      document.getElementById(key + '-slider').value = value;
+      document.getElementById(key + '-input').value = value;
+      document.getElementById(key + '-value').textContent = value;
+    }
+  });
+
+  updatePlots();
+}
+
+function getNestedValue(obj, propertyPath) {
+  return propertyPath.split('.').reduce((currentObj, property) => currentObj[property], obj);
 }
 
 function init() {

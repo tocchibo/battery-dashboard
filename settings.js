@@ -45,14 +45,16 @@ const settings = {
       max: 100000,
       step: 100,
       label: "1次利用PCSコスト [円/kWh]",
-      category: "primary"
+      category: "primary",
+      dataProperty: "systemData.pcsCostCascadePerKWh"
     },
     secondaryPcsCostCascadePerKWh: {
       min: 0,
       max: 100000,
       step: 100,
       label: "2次利用PCSコスト [円/kWh]",
-      category: "secondary"
+      category: "secondary",
+      dataProperty: "systemData.pcsCostCascadePerKWh"
     },
   },
 };
