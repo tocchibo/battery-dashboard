@@ -24,6 +24,16 @@ const settings = {
     }
   },  
   sliders: {
+    exchangeRate: {
+      min: 50,
+      max: 300,
+      value: 144,
+      step: 1,
+      label: "為替レート [円/ドル]",
+      category: "common",
+      dataProperty: "exchangeRate",
+      percentage: false
+    },
     pricePerKWh: {
       min: 0,
       max: 100000,
@@ -31,7 +41,28 @@ const settings = {
       step: 10,
       label: "セル価格 [円/kWh]",
       category: "common",
-      dataProperty: "cellData.pricePerKWh"
+      dataProperty: "cellData.pricePerKWh",
+      percentage: false
+    },
+    gasolinePricePerLiter: {
+      min: 50,
+      max: 300,
+      value: 200,
+      step: 1,
+      label: "ガソリン価格 [円/L]",
+      category: "common",
+      dataProperty: "gasolinePricePerLiter",
+      percentage: false
+    },
+    gridAveragePowerPrice: {
+      min: 10,
+      max: 30,
+      value: 12,
+      step: 1,
+      label: "系統平均電力価格 [円/kWh]",
+      category: "common",
+      dataProperty: "gridAveragePowerPrice",
+      percentage: false
     },
     costAllocationRate: {
       min: 0,
@@ -40,7 +71,8 @@ const settings = {
       step: 1,
       label: "リース料配分 [%]",
       category: "common",
-      dataProperty: "costAllocationRate"
+      dataProperty: "costAllocationRate",
+      percentage: true
     },
     primaryPcsCostCascadePerKWh: {
       min: 0,
@@ -48,7 +80,17 @@ const settings = {
       step: 100,
       label: "1次利用PCSコスト [円/kWh]",
       category: "primary",
-      dataProperty: "systemData.pcsCostCascadePerKWh"
+      dataProperty: "systemData.pcsCostCascadePerKWh",
+      percentage: false
+    },
+    subsidy: {
+      min: 0,
+      max: 1000000,
+      step: 100,
+      label: "補助金 [円]",
+      category: "primary",
+      dataProperty: "subsidy",
+      percentage: false
     },
     secondaryPcsCostCascadePerKWh: {
       min: 0,
@@ -56,7 +98,8 @@ const settings = {
       step: 100,
       label: "2次利用PCSコスト [円/kWh]",
       category: "secondary",
-      dataProperty: "systemData.pcsCostCascadePerKWh"
+      dataProperty: "systemData.pcsCostCascadePerKWh",
+      percentage: false
     },
   },
 };

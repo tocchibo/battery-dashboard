@@ -2,19 +2,31 @@ let inputData;
 
 function updateInputDataFromSliders() {
   if (inputData) {
-    inputData.cellData.pricePerKWh = parseFloat(document.getElementById('pricePerKWh-slider').value);
-    
-    // 他のスライダについても同様に更新
-    inputData.costAllocationRate = parseFloat(document.getElementById('costAllocationRate-slider').value) / 100;
-    
-    // 1次利用と2次利用のアプリケーションを取得
     const primaryApplication = inputData.applications.find(app => app.name === document.getElementById('primaryUse').value);
     const secondaryApplication = inputData.applications.find(app => app.name === document.getElementById('secondaryUse').value);
-    
-    // 1次利用と2次利用のPCSコストを更新
-    primaryApplication.systemData.pcsCostCascadePerKWh = parseFloat(document.getElementById('primaryPcsCostCascadePerKWh-slider').value);
-    secondaryApplication.systemData.pcsCostCascadePerKWh = parseFloat(document.getElementById('secondaryPcsCostCascadePerKWh-slider').value);
-    
+
+    Object.keys(settings.sliders).forEach(key => {
+      const setting = settings.sliders[key];
+      if (setting.dataProperty) {
+        const value = parseFloat(document.getElementById(key + '-slider').value);
+        const propertyPath = setting.dataProperty.split('.');
+        let obj;
+
+        if (key.startsWith('primary')) {
+          obj = primaryApplication;
+        } else if (key.startsWith('secondary')) {
+          obj = secondaryApplication;
+        } else {
+          obj = inputData;
+        }
+
+        for (let i = 0; i < propertyPath.length - 1; i++) {
+          obj = obj[propertyPath[i]];
+        }
+        obj[propertyPath[propertyPath.length - 1]] = setting.percentage ? value / 100 : value;
+      }
+    });
+
     updatePlots(); // スライダの値が変更されたときにグラフを更新
   }
 }
