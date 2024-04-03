@@ -64,6 +64,26 @@ const settings = {
       dataProperty: "gridAveragePowerPrice",
       percentage: false
     },
+    monitoringCostOpPerYear: {
+      min: 0,
+      max: 2000,
+      value: 801,
+      step: 1,
+      label: "年間モニタリングコスト原価 [円/年・モニタリング単位]",
+      category: "common",
+      dataProperty: "monitoringCostOpPerYear",
+      percentage: false
+    },
+    leaseRecoveryRate: {
+      min: 0,
+      max: 100,
+      value: 20,
+      step: 1,
+      label: "リース回収率 [%]",
+      category: "common",
+      dataProperty: "leaseRecoveryRate",
+      percentage: true
+    },
     costAllocationRate: {
       min: 0,
       max: 100,
@@ -73,6 +93,42 @@ const settings = {
       category: "common",
       dataProperty: "costAllocationRate",
       percentage: true
+    },
+    primaryExistingEquipmentCost: {
+      min: 0,
+      max: 10000000,
+      step: 10000,
+      label: "既存装置コスト[円/システム]",
+      category: "primary",
+      dataProperty: "existingEquipmentCost",
+      percentage: false
+    },
+    primaryNewEquipmentCost: {
+      min: 0,
+      max: 10000000,
+      step: 10000,
+      label: "新規装置コスト[円/システム]",
+      category: "primary",
+      dataProperty: "newEquipmentCost",
+      percentage: false
+    },
+    secondaryExistingEquipmentCost: {
+      min: 0,
+      max: 10000000,
+      step: 10000,
+      label: "既存装置コスト[円/システム]",
+      category: "secondary",
+      dataProperty: "existingEquipmentCost",
+      percentage: false
+    },
+    secondaryNewEquipmentCost: {
+      min: 0,
+      max: 10000000,
+      step: 10000,
+      label: "新規装置コスト[円/システム]",
+      category: "secondary",
+      dataProperty: "newEquipmentCost",
+      percentage: false
     },
     primaryPcsCostPerKWh: {
       min: 0,
