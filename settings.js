@@ -74,6 +74,24 @@ const settings = {
       dataProperty: "costAllocationRate",
       percentage: true
     },
+    primaryPcsCostPerKWh: {
+      min: 0,
+      max: 100000,
+      step: 100,
+      label: "従来PCSコスト [円/kWh]",
+      category: "primary",
+      dataProperty: "systemData.pcsCostPerKWh",
+      percentage: false
+    },
+    secondaryPcsCostPerKWh: {
+      min: 0,
+      max: 100000,
+      step: 100,
+      label: "従来PCSコスト [円/kWh]",
+      category: "secondary",
+      dataProperty: "systemData.pcsCostPerKWh",
+      percentage: false
+    },
     primaryPcsCostCascadePerKWh: {
       min: 0,
       max: 100000,

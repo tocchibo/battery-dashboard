@@ -63,20 +63,20 @@
   }
 
   .slider-section-wrapper {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 5px; /* 一次利用と二次利用の間に20pxの隙間を追加 */
-  }
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px; /* スライダーグループ間に20pxの隙間を追加 */
+}
 
-  .slider-section {
-    flex: 1;
-    padding: 10px;
-    min-width: 300px;
-    background-color: #f0f0f0; /* 薄いグレーの背景色を追加 */
-    border-radius: 5px; /* 角を丸くする */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 薄い影をつける */
-  }
+.slider-section {
+  flex: 1;
+  padding: 10px;
+  min-width: 300px;
+  background-color: #f0f0f0; /* 薄いグレーの背景色を追加 */
+  border-radius: 5px; /* 角を丸くする */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 薄い影をつける */
+}
 
   .slider-section h3 {
     margin-bottom: 10px;
@@ -90,22 +90,20 @@
       <div class="chart" id="economicChart"></div>
       <div class="chart" id="costChart"></div>
     </div>
-    <div class="sidebar">
-      <div id="info"></div>
-      <div id="sliders">
-        <div class="slider-section-wrapper">
-          <div class="slider-section">
-            <label for="primaryUse">1次利用:</label>
-            <select id="primaryUse"></select>
-            <div id="primary-sliders"></div>
-          </div>
-          <div class="slider-section">
-            <label for="secondaryUse">2次利用:</label>
-            <select id="secondaryUse"></select>
-            <div id="secondary-sliders"></div>
-          </div>
+    <div id="sliders">
+      <div class="slider-section-wrapper">
+        <div class="slider-section">
+          <label for="primaryUse">1次利用:</label>
+          <select id="primaryUse"></select>
+          <div id="primary-sliders"></div>
         </div>
         <div class="slider-section">
+          <label for="secondaryUse">2次利用:</label>
+          <select id="secondaryUse"></select>
+          <div id="secondary-sliders"></div>
+        </div>
+        <div class="slider-section">
+          <label>共通設定</label>
           <div id="common-sliders"></div>
         </div>
       </div>
