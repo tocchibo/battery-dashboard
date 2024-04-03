@@ -47,6 +47,8 @@ function loadData(theme) {
     gridMaxPowerPrice: 25,  // 系統最高電力価格(円/kWh)
     gridMinPowerPrice: 5,  // 系統最低電力価格(円/kWh)
     retailPowerPrice: 30,  // 小売電力価格(円/kWh)
+    CalendarDegradationFactor: 6.23092,  // SOHのカレンダー劣化係数　[0.001%/days]
+    CycleDegradationFactor: 28.02775,  // SOHのサイクル劣化係数 [0.001%/cycles]
     cellData: {
       pricePerKWh: 12960,  // セル価格[円/kWh]
       voltage: 3.2,  // セル電圧[V]

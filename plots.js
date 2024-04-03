@@ -69,6 +69,9 @@ function prepareGraphData(primaryUse, secondaryUse, inputData) {
     const primaryTotalGainPerKWh = primaryGainPerKWh.capex + primaryGainPerKWh.opex + primaryGainPerKWh.subsidyPerKWh;
     const secondaryTotalGainPerKWh = secondaryGainPerKWh.capex + secondaryGainPerKWh.opex + secondaryGainPerKWh.subsidyPerKWh;
 
+    // SOH劣化量
+    primarySohDeterioration = calculateSohDeterioration(primaryApplication, inputData)
+    secondarySohDeterioration = calculateSohDeterioration(secondaryApplication, inputData)
 
     economicChartData = [
       createBarTrace([primaryUse, secondaryUse], [primaryTotalGainPerKWh, secondaryTotalGainPerKWh], '経済利得'),
@@ -137,7 +140,7 @@ function updatePlots() {
     };
 
     Plotly.newPlot('economicChart', graphData.economicChartData, layout);
-    // updateInfo(primaryUse, secondaryUse, graphData.economicChartData);
+    updateInfo(primarySohDeterioration, secondarySohDeterioration);
   }
   if (graphData.costChartData) {
     const layout = {

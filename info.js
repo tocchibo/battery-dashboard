@@ -1,9 +1,6 @@
-function updateInfo(primaryUse, secondaryUse, graphData) {
-  const primaryCascadeBatteryCostPerKWh = graphData[2].y[0];
-  const secondaryCascadeBatteryCostPerKWh = graphData[2].y[1];
+function updateInfo(primarySohDeterioration, secondarySohDeterioration) {
 
   document.getElementById('info').innerHTML = `
-    <strong>1次利用 (${primaryUse}):</strong> ${primaryCascadeBatteryCostPerKWh.toLocaleString()}円/kWh<br>
-    <strong>2次利用 (${secondaryUse}):</strong> ${secondaryCascadeBatteryCostPerKWh.toLocaleString()}円/kWh
+    <strong>SOH減少</strong> 1次利用: ${primarySohDeterioration.toLocaleString()}%、2次利用: ${secondarySohDeterioration.toLocaleString()}%、トータル: ${(primarySohDeterioration + secondarySohDeterioration).toLocaleString()}%
   `;
 }

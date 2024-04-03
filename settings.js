@@ -94,6 +94,26 @@ const settings = {
       dataProperty: "costAllocationRate",
       percentage: true
     },
+    CalendarDegradationFactor: {
+      min: 0,
+      max: 10,
+      value: 6.23092,
+      step: 0.001,
+      label: "SOHのカレンダー劣化係数　[0.001%/days]",
+      category: "common",
+      dataProperty: "CalendarDegradationFactor",
+      percentage: false
+    },
+    CycleDegradationFactor: {
+      min: 0,
+      max: 40,
+      value: 28.02775,
+      step: 0.001,
+      label: "SOHのサイクル劣化係数　[0.001%/cycles]",
+      category: "common",
+      dataProperty: "CycleDegradationFactor",
+      percentage: false
+    },
     primaryExistingEquipmentCost: {
       min: 0,
       max: 10000000,
