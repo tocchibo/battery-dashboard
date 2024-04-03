@@ -152,7 +152,7 @@ const settings = {
     },
     primaryPcsCostPerKWh: {
       min: 0,
-      max: 100000,
+      max: 50000,
       step: 100,
       label: "従来PCSコスト [円/kWh]",
       category: "primary",
@@ -161,7 +161,7 @@ const settings = {
     },
     secondaryPcsCostPerKWh: {
       min: 0,
-      max: 100000,
+      max: 50000,
       step: 100,
       label: "従来PCSコスト [円/kWh]",
       category: "secondary",
@@ -170,7 +170,7 @@ const settings = {
     },
     primaryPcsCostCascadePerKWh: {
       min: 0,
-      max: 100000,
+      max: 50000,
       step: 100,
       label: "カスケードPCSコスト [円/kWh]",
       category: "primary",
@@ -179,16 +179,52 @@ const settings = {
     },
     secondaryPcsCostCascadePerKWh: {
       min: 0,
-      max: 100000,
+      max: 50000,
       step: 100,
       label: "カスケードPCSコスト [円/kWh]",
       category: "secondary",
       dataProperty: "systemData.pcsCostCascadePerKWh",
       percentage: false
     },
+    primaryConstructionCostPerKWh: {
+      min: 0,
+      max: 50000,
+      step: 100,
+      label: "工事コスト [円/kWh]",
+      category: "primary",
+      dataProperty: "systemData.constructionCostPerKWh",
+      percentage: false
+    },
+    secondaryConstructionCostPerKWh: {
+      min: 0,
+      max: 50000,
+      step: 100,
+      label: "工事コスト [円/kWh]",
+      category: "secondary",
+      dataProperty: "systemData.constructionCostPerKWh",
+      percentage: false
+    },
+    primaryOtherCostPerKWh: {
+      min: 0,
+      max: 50000,
+      step: 100,
+      label: "その他コスト [円/kWh]",
+      category: "primary",
+      dataProperty: "systemData.otherCostPerKWh",
+      percentage: false
+    },
+    secondaryOtherCostPerKWh: {
+      min: 0,
+      max: 50000,
+      step: 100,
+      label: "その他コスト [円/kWh]",
+      category: "secondary",
+      dataProperty: "systemData.otherCostPerKWh",
+      percentage: false
+    },
     primarySubsidy: {
       min: 0,
-      max: 10000000,
+      max: 100000000,
       step: 100,
       label: "補助金 [円/システム]",
       category: "primary",
@@ -197,7 +233,7 @@ const settings = {
     },
     secondarySubsidy: {
       min: 0,
-      max: 10000000,
+      max: 100000000,
       step: 100,
       label: "補助金 [円/システム]",
       category: "secondary",
