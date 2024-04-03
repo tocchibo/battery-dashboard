@@ -78,27 +78,36 @@ const settings = {
       min: 0,
       max: 100000,
       step: 100,
-      label: "1次利用PCSコスト [円/kWh]",
+      label: "カスケードPCSコスト [円/kWh]",
       category: "primary",
       dataProperty: "systemData.pcsCostCascadePerKWh",
-      percentage: false
-    },
-    subsidy: {
-      min: 0,
-      max: 1000000,
-      step: 100,
-      label: "補助金 [円]",
-      category: "primary",
-      dataProperty: "subsidy",
       percentage: false
     },
     secondaryPcsCostCascadePerKWh: {
       min: 0,
       max: 100000,
       step: 100,
-      label: "2次利用PCSコスト [円/kWh]",
+      label: "カスケードPCSコスト [円/kWh]",
       category: "secondary",
       dataProperty: "systemData.pcsCostCascadePerKWh",
+      percentage: false
+    },
+    primarySubsidy: {
+      min: 0,
+      max: 10000000,
+      step: 100,
+      label: "補助金 [円/システム]",
+      category: "primary",
+      dataProperty: "subsidy",
+      percentage: false
+    },
+    secondarySubsidy: {
+      min: 0,
+      max: 10000000,
+      step: 100,
+      label: "補助金 [円/システム]",
+      category: "secondary",
+      dataProperty: "subsidy",
       percentage: false
     },
   },

@@ -2,9 +2,6 @@ let inputData;
 
 function updateInputDataFromSliders() {
   if (inputData) {
-    const primaryApplication = inputData.applications.find(app => app.name === document.getElementById('primaryUse').value);
-    const secondaryApplication = inputData.applications.find(app => app.name === document.getElementById('secondaryUse').value);
-
     Object.keys(settings.sliders).forEach(key => {
       const setting = settings.sliders[key];
       if (setting.dataProperty) {
@@ -12,22 +9,27 @@ function updateInputDataFromSliders() {
         const propertyPath = setting.dataProperty.split('.');
         let obj;
 
-        if (key.startsWith('primary')) {
-          obj = primaryApplication;
-        } else if (key.startsWith('secondary')) {
-          obj = secondaryApplication;
+        if (setting.category === 'primary') {
+          obj = inputData.applications.find(app => app.name === document.getElementById('primaryUse').value);
+        } else if (setting.category === 'secondary') {
+          obj = inputData.applications.find(app => app.name === document.getElementById('secondaryUse').value);
         } else {
           obj = inputData;
         }
 
-        for (let i = 0; i < propertyPath.length - 1; i++) {
-          obj = obj[propertyPath[i]];
+        if (propertyPath.length === 1) {
+          obj[propertyPath[0]] = setting.percentage ? value / 100 : value;
+        } else {
+          let targetObj = obj;
+          for (let i = 0; i < propertyPath.length - 1; i++) {
+            targetObj = targetObj[propertyPath[i]];
+          }
+          targetObj[propertyPath[propertyPath.length - 1]] = setting.percentage ? value / 100 : value;
         }
-        obj[propertyPath[propertyPath.length - 1]] = setting.percentage ? value / 100 : value;
       }
     });
 
-    updatePlots(); // スライダの値が変更されたときにグラフを更新
+    updatePlots();
   }
 }
 
