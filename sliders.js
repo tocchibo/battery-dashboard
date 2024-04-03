@@ -54,7 +54,7 @@ function createSliders() {
 
     const span = document.createElement('span');
     span.id = key + '-value';
-    span.textContent = slider.value;
+    span.textContent = Number(slider.value).toLocaleString();
     container.appendChild(span);
 
     switch (setting.category) {
