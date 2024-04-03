@@ -156,7 +156,7 @@ function calculateSohDeterioration(application, inputData) {
         equivalentCycles = application.averageEquivalentCyclesPerDay * days
     }
     
-    const sohDeterioration = (inputData.CalendarDegradationFactor * days + inputData.CycleDegradationFactor * equivalentCycles) * 0.001
+    const sohDeterioration = (inputData.CalendarDegradationFactor * days + inputData.CycleDegradationFactor * equivalentCycles) * 0.001  // 係数を1000倍しているので割り戻す
 
     return sohDeterioration;
 }

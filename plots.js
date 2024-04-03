@@ -140,7 +140,7 @@ function updatePlots() {
     };
 
     Plotly.newPlot('economicChart', graphData.economicChartData, layout);
-    updateInfo(primarySohDeterioration, secondarySohDeterioration);
+    updateInfo();
   }
   if (graphData.costChartData) {
     const layout = {

@@ -44,6 +44,7 @@ function updateSliders() {
   });
 
   updatePlots();
+  updateInfo();
 }
 
 function getNestedValue(obj, propertyPath) {
@@ -55,7 +56,7 @@ function init() {
   inputData = loadData();
   createSliders();
   updatePlots();
-
+  updateInfo();
   document.getElementById('primaryUse').addEventListener('change', updateSliders);
   document.getElementById('secondaryUse').addEventListener('change', updateSliders);
 }
