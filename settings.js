@@ -110,5 +110,23 @@ const settings = {
       dataProperty: "subsidy",
       percentage: false
     },
+    primaryYearsOfUse: {
+      min: 1,
+      max: 20,
+      step: 1,
+      label: "使用年数 [年]",
+      category: "primary",
+      dataProperty: "yearsOfUse",
+      percentage: false
+    },
+    secondaryYearsOfUse: {
+      min: 1,
+      max: 20,
+      step: 1,
+      label: "使用年数 [年]",
+      category: "secondary",
+      dataProperty: "yearsOfUse",
+      percentage: false
+    },
   },
 };

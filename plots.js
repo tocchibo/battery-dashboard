@@ -99,7 +99,7 @@ function prepareGraphData(primaryUse, secondaryUse, inputData) {
                      [costs.primaryCosts.otherCostPerKWh, costs.primaryCosts.otherCostPerKWh, costs.secondaryCosts.otherCostPerKWh, costs.secondaryCosts.otherCostPerKWh, 0],
                      'その他', '#ffd5aa'),
       createBarTrace(['新品 - ' + primaryUse, 'カスケード - ' + primaryUse, '新品 - ' + secondaryUse, 'カスケード - ' + secondaryUse, 'カスケード - リース事業者'],
-                     [costs.primaryCosts.monitoringCostPerKWh, costs.primaryCosts.monitoringCostPerKWh, costs.secondaryCosts.monitoringCostPerKWh, costs.secondaryCosts.monitoringCostPerKWh, 0],
+                     [costs.primaryCosts.monitoringCostPerKWh, 0, costs.secondaryCosts.monitoringCostPerKWh, 0, costs.primaryCosts.monitoringCostPerKWh+costs.secondaryCosts.monitoringCostPerKWh],
                      'モニタリング', '#ffead5'),
       createBarTrace(['新品 - ' + primaryUse, 'カスケード - ' + primaryUse, '新品 - ' + secondaryUse, 'カスケード - ' + secondaryUse, 'カスケード - リース事業者'],
                      [0, 0, 0, 0, reconfigurationCostPerKWh],
