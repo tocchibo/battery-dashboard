@@ -43,8 +43,7 @@ function prepareGraphData(primaryUse, secondaryUse, inputData) {
     const reconfigurationCostPerKWh = calculateReconfigurationCostPerKWh(primaryApplication, secondaryApplication, inputData);
 
     // カスケードでリース会社が負担するコスト
-    const cascadeCostPerKWh = primaryTotalCostPerKWh +
-                              reconfigurationCostPerKWh;
+    const cascadeCostPerKWh = costs.primaryCosts.batteryCostPerKWh + reconfigurationCostPerKWh;
 
     // リース回収率と按分比率を考慮して決定するリース料
     const costAllocationRate = inputData.costAllocationRate;
@@ -121,6 +120,7 @@ function prepareGraphData(primaryUse, secondaryUse, inputData) {
 
 // グラフを更新する
 function updatePlots() {
+  console.log('グラフ更新開始');
   const primaryUse = document.getElementById('primaryUse').value;
   const secondaryUse = document.getElementById('secondaryUse').value;
 
@@ -157,5 +157,5 @@ function updatePlots() {
 
     Plotly.newPlot('costChart', graphData.costChartData, layout);
   }
-
+  console.log('グラフ更新終了');
 }

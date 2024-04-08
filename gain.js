@@ -83,6 +83,10 @@ function calculateGainPerKWh(application, inputData) {
 
     const subsidyPerKWh = application.subsidy / systemCapacity
 
+    console.log('CAPEX由来の利得:', capexReductionGainPerKWh);
+    console.log('OPEX由来の利得:', operationGainPerKWh);
+    console.log('補助金:', subsidyPerKWh);
+
     return {
         capex: capexReductionGainPerKWh,
         opex: operationGainPerKWh,

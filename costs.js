@@ -154,6 +154,14 @@ function calculateSystemSpecs(application, inputData) {
     const constructionCostPerKWh = systemData.constructionCostPerKWh;
     // その他コスト
     const otherCostPerKWh = systemData.otherCostPerKWh;
+
+    console.log('セルコスト:', cellCostPerKWh);
+    console.log('モジュール製造コスト:', moduleCostPerKWh);
+    console.log('パック製造コスト:', packCostPerKWh);
+    console.log('PCSコスト:', pcsCostPerKWh);
+    console.log('工事費:', constructionCostPerKWh);
+    console.log('その他コスト:', otherCostPerKWh);
+    console.log('モニタリングコスト:', monitoringCostPerKWh);
   
     return {
       cellCostPerKWh,
@@ -203,12 +211,6 @@ function calculateSystemSpecs(application, inputData) {
   // 蓄電池コスト
     const primaryCosts = calculateTotalCostPerKWh(primaryApplication, inputData);
     const secondaryCosts = calculateTotalCostPerKWh(secondaryApplication, inputData);
-
-    // スライダーでコントロールする項目
-    primaryCosts.cellCostPerKWh = inputData.cellData.pricePerKWh;
-    secondaryCosts.cellCostPerKWh = inputData.cellData.pricePerKWh;
-    primaryCosts.pcsCostCascadePerKWh = primaryApplication.systemData.pcsCostCascadePerKWh;
-    secondaryCosts.pcsCostCascadePerKWh = secondaryApplication.systemData.pcsCostCascadePerKWh;
       
     primaryCosts.batteryCostPerKWh = primaryCosts.cellCostPerKWh + primaryCosts.moduleCostPerKWh + primaryCosts.packCostPerKWh;
     secondaryCosts.batteryCostPerKWh = secondaryCosts.cellCostPerKWh + secondaryCosts.moduleCostPerKWh + secondaryCosts.packCostPerKWh;

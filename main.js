@@ -57,11 +57,11 @@ function updateSliders() {
         ? getNestedValue(secondaryApplication, setting.dataProperty)
         : getNestedValue(inputData, setting.dataProperty);
       // スライダーの値を更新
-      document.getElementById(key + '-slider').value = value;
+      document.getElementById(key + '-slider').value = setting.percentage ? value * 100 : value;
       // 入力欄の値を更新
-      document.getElementById(key + '-input').value = value;
+      document.getElementById(key + '-input').value = setting.percentage ? value * 100 : value;
       // 表示値を更新
-      document.getElementById(key + '-value').textContent = value;
+      document.getElementById(key + '-value').textContent = setting.percentage ? value * 100 : value;
     }
   });
 
