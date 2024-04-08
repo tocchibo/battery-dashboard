@@ -175,35 +175,49 @@ function calculateSystemSpecs(application, inputData) {
     };
   }
   
-  // 再構成コストを計算する
-  function calculateReconfigurationCostPerKWh(primaryApplication, secondaryApplication, inputData) {
-    const { moduleData: primaryModuleData, packData: primaryPackData, systemData: primarySystemData } = primaryApplication;
-    const { moduleData: secondaryModuleData, packData: secondaryPackData, systemData: secondarySystemData } = secondaryApplication;
-    const secondarySystemSpecs = calculateSystemSpecs(secondaryApplication, inputData);
+// 再構成コストを計算する
+function calculateReconfigurationCostPerKWh(primaryApplication, secondaryApplication, inputData) {
+  // 1次利用と2次利用のモジュールデータ、パックデータ、システムデータを取得
+  const { moduleData: primaryModuleData, packData: primaryPackData, systemData: primarySystemData } = primaryApplication;
+  const { moduleData: secondaryModuleData, packData: secondaryPackData, systemData: secondarySystemData } = secondaryApplication;
   
-    let reconfigurationCost = 0;
+  // 2次利用のシステム仕様を計算
+  const secondarySystemSpecs = calculateSystemSpecs(secondaryApplication, inputData);
   
-    if (
-      primaryModuleData.cellsPerModule === secondaryModuleData.cellsPerModule &&
-      primaryModuleData.cellsInSeries === secondaryModuleData.cellsInSeries &&
-      primaryPackData.modulesPerPack === secondaryPackData.modulesPerPack &&
-      primaryPackData.modulesInSeries === secondaryPackData.modulesInSeries
-    ) {
-      reconfigurationCost = 0;
-    } else if (
-      primaryModuleData.cellsPerModule === secondaryModuleData.cellsPerModule &&
-      primaryModuleData.cellsInSeries === secondaryModuleData.cellsInSeries
-    ) {
-      reconfigurationCost = calculateBatteryCosts(secondaryApplication, secondarySystemSpecs, inputData).packCost * secondarySystemData.packsPerSystem;
-    } else {
-      reconfigurationCost = calculateBatteryCosts(secondaryApplication, secondarySystemSpecs, inputData).packCost * secondarySystemData.packsPerSystem +
-                            calculateBatteryCosts(secondaryApplication, secondarySystemSpecs, inputData).moduleCost * secondarySystemData.packsPerSystem * secondaryPackData.modulesPerPack;
-    }
+  // 再構成コストを初期化
+  let reconfigurationCost = 0;
   
-    const reconfigurationCostPerKWh = reconfigurationCost / secondarySystemSpecs.systemCapacity;
-  
-    return reconfigurationCostPerKWh;
+  // 1次利用と2次利用のモジュール構成とパック構成が同じ場合
+  if (
+    primaryModuleData.cellsPerModule === secondaryModuleData.cellsPerModule &&
+    primaryModuleData.cellsInSeries === secondaryModuleData.cellsInSeries &&
+    primaryPackData.modulesPerPack === secondaryPackData.modulesPerPack &&
+    primaryPackData.modulesInSeries === secondaryPackData.modulesInSeries
+  ) {
+    // 再構成コストは0
+    reconfigurationCost = 0;
   }
+  // 1次利用と2次利用のモジュール構成が同じ場合
+  else if (
+    primaryModuleData.cellsPerModule === secondaryModuleData.cellsPerModule &&
+    primaryModuleData.cellsInSeries === secondaryModuleData.cellsInSeries
+  ) {
+    // 再構成コストは2次利用のパック製造コスト × 2次利用のパック数
+    reconfigurationCost = calculateBatteryCosts(secondaryApplication, secondarySystemSpecs, inputData).packCost * secondarySystemData.packsPerSystem;
+  }
+  // 1次利用と2次利用のモジュール構成が異なる場合
+  else {
+    // 再構成コストは2次利用のパック製造コスト × 2次利用のパック数 + 2次利用のモジュール製造コスト × 2次利用のパック数 × 2次利用のパックあたりモジュール数
+    reconfigurationCost = calculateBatteryCosts(secondaryApplication, secondarySystemSpecs, inputData).packCost * secondarySystemData.packsPerSystem +
+                          calculateBatteryCosts(secondaryApplication, secondarySystemSpecs, inputData).moduleCost * secondarySystemData.packsPerSystem * secondaryPackData.modulesPerPack;
+  }
+  
+  // kWhあたりの再構成コストを計算
+  const reconfigurationCostPerKWh = reconfigurationCost / secondarySystemSpecs.systemCapacity;
+  
+  // kWhあたりの再構成コストを返す
+  return reconfigurationCostPerKWh;
+}
 
   // 1次利用・2次利用それぞれのコストを計算する
   function calculatePrimaryAndSecondaryCosts(primaryApplication, secondaryApplication, inputData) {

@@ -133,7 +133,7 @@ function loadData(theme) {
         },
       },
       {
-        name: "PV発電所併設(共通モジュール)",
+        name: "PV発電所併設(EV共通モジュール)",
         yearsOfUse: 15,  // 電池利用年数
         existingEquipmentCost: 0, // 既存装置コスト[円]
         newEquipmentCost: 0, // 新規装置コスト[円]
@@ -199,6 +199,44 @@ function loadData(theme) {
         systemData: {
           packsPerSystem: 5,
           packsInSeries: 5,
+          coolingSystem: "空冷",
+          ptcHeaterPower: 0,
+          monitoringUnit: "パック",
+          pcsCostPerKWh: 1600,
+          pcsCostCascadePerKWh: 1600,
+          constructionCostPerKWh: 37000,
+          otherCostPerKWh: 38000,
+        },
+      },
+      {
+        name: "基地局PV併設(EV共通パック)",
+        yearsOfUse: 5,  // 電池利用年数
+        existingEquipmentCost: 0, // 既存装置コスト[円]
+        newEquipmentCost: 0, // 新規装置コスト[円]
+        subsidy: 0, // 補助金[円]
+        capexScenario: null, // CAPEXのシナリオ
+        opexScenario: "余剰電力と日中最高電力価格との価格差", // OPEXのシナリオ
+        fuelPricePerLiter: null,  // 燃料代[円/L]
+        fuelEfficiency: null,  // 燃費[km/L]
+        electricEfficiency: null,  // 電費[km/kWh]
+        annualMileage: null,  // 走行距離[km/year]
+        averageEquivalentCyclesPerDay: 0.6,  // 一日当たり放電サイクル[等価サイクル数]
+        requiredPerformance: {
+          requiredOutput: 3,  // 要求定格出力[kW]
+          requiredVoltage: 48,  // 要求電圧[V]
+          requiredCapacity: 50,  // 要求容量[kWh]
+        },
+        moduleData: {
+          cellsPerModule: 15,
+          cellsInSeries: 15,
+        },
+        packData: {
+          modulesPerPack: 6,
+          modulesInSeries: 1,
+        },
+        systemData: {
+          packsPerSystem: 5,
+          packsInSeries: 1,
           coolingSystem: "空冷",
           ptcHeaterPower: 0,
           monitoringUnit: "パック",
