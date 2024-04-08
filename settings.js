@@ -127,7 +127,7 @@ const settings = {
       min: 0,
       max: 10000000,
       step: 10000,
-      label: "新規装置コスト[円/システム]",
+      label: "新規装置コスト(電池除く)[円/システム]",
       category: "primary",
       dataProperty: "newEquipmentCost",
       percentage: false
@@ -145,7 +145,7 @@ const settings = {
       min: 0,
       max: 10000000,
       step: 10000,
-      label: "新規装置コスト[円/システム]",
+      label: "新規装置コスト(電池除く)[円/システム]",
       category: "secondary",
       dataProperty: "newEquipmentCost",
       percentage: false
