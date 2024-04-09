@@ -120,7 +120,6 @@ function prepareGraphData(primaryUse, secondaryUse) {
 
 // グラフを更新する
 function updatePlots() {
-  console.log('グラフ更新開始');
   const primaryUse = document.getElementById('primaryUse').value;
   const secondaryUse = document.getElementById('secondaryUse').value;
 
@@ -157,5 +156,4 @@ function updatePlots() {
 
     Plotly.newPlot('costChart', graphData.costChartData, layout);
   }
-  console.log('グラフ更新終了');
 }
