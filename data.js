@@ -249,8 +249,8 @@ function loadData(theme) {
       {
         name: "EV(建設機械)",
         yearsOfUse: 5,  // 電池利用年数
-        existingEquipmentCost: 0, // 既存装置コスト[円]
-        newEquipmentCost: 0, // 新規装置コスト[円]
+        existingEquipmentCost: 3000000, // 既存装置コスト[円]
+        newEquipmentCost: 4900000, // 新規装置コスト[円]
         subsidy: 0, // 補助金[円]
         capexScenario: "既存装置との価格差", // CAPEXのシナリオ
         opexScenario: "電気代と既存エネルギー代の価格差", // OPEXのシナリオ
@@ -268,7 +268,7 @@ function loadData(theme) {
           cellsInSeries: 15,
         },
         packData: {
-          modulesPerPack: 6,
+          modulesPerPack: 4,
           modulesInSeries: 2,
         },
         systemData: {

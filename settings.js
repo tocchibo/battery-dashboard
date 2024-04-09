@@ -54,6 +54,16 @@ const settings = {
       dataProperty: "gasolinePricePerLiter",
       percentage: false
     },
+    dieselPricePerLiter: {
+      min: 50,
+      max: 300,
+      value: 180,
+      step: 1,
+      label: "軽油価格 [円/L]",
+      category: "common",
+      dataProperty: "dieselPricePerLiter",
+      percentage: false
+    },
     gridAveragePowerPrice: {
       min: 10,
       max: 30,
