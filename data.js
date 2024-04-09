@@ -28,12 +28,10 @@ function updateInputDataFromSliders() {
         }
       }
     });
-
-    updatePlots();
   }
 }
 
-function updateInputData() {
+function initializeInputData() {
   inputData = loadData();
 }
 

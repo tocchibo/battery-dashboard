@@ -66,7 +66,7 @@ function updateSliders() {
   });
 
   // 入力データを更新
-  updateInputData();
+  updateInputDataFromSliders();
   // グラフを更新
   updatePlots();
   // 追加情報を更新
@@ -82,8 +82,8 @@ function getNestedValue(obj, propertyPath) {
 function init() {
   // ドロップダウンメニューに選択肢を追加
   populateDropdowns();
-  // 入力データを更新
-  updateInputData();
+  // 入力データを初期化
+  initializeInputData();
   // スライダーを作成
   createSliders();
   // グラフを更新

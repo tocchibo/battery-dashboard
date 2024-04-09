@@ -5,7 +5,7 @@ function updateInfo() {
   const primaryApplication = inputData.applications.find((app) => app.name === primaryUse);
   const secondaryApplication = inputData.applications.find((app) => app.name === secondaryUse);
   
-  updateInputData();
+  updateInputDataFromSliders();
   const primarySohDeterioration = calculateSohDeterioration(primaryApplication)
   const secondarySohDeterioration = calculateSohDeterioration(secondaryApplication)
   document.getElementById('info').innerHTML = `

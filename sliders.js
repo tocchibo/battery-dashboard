@@ -97,6 +97,7 @@ function createSliders() {
       document.getElementById(key + '-value').textContent = Number(value).toLocaleString();
       document.getElementById(key + '-input').value = value;
       updateInputDataFromSliders();
+      updatePlots();
     };
 
     // 入力欄の入力イベントを設定
@@ -105,6 +106,7 @@ function createSliders() {
       document.getElementById(key + '-value').textContent = Number(value).toLocaleString();
       document.getElementById(key + '-slider').value = value;
       updateInputDataFromSliders();
+      updatePlots();
     };
   });
 }
