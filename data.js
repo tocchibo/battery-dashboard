@@ -211,7 +211,7 @@ function loadData() {
         },
       },
       {
-        name: "基地局PV併設(EV共通パック)",
+        name: "基地局PV併設(GSM共通パック)",
         yearsOfUse: 5,  // 電池利用年数
         existingEquipmentCost: 0, // 既存装置コスト[円]
         newEquipmentCost: 0, // 新規装置コスト[円]
