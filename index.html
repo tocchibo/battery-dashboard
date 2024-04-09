@@ -82,10 +82,19 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 薄い影をつける */
 }
 
-  .slider-section h3 {
-    margin-bottom: 10px;
-  }
+.slider-section h3 {
+  margin-bottom: 10px;
+}
+.slider-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
 
+.slider-section-header button {
+  margin-left: 10px;
+}
   </style>
 </head>
 <body>
@@ -97,21 +106,32 @@
     <div id="sliders">
       <div class="slider-section-wrapper">
         <div class="slider-section">
-          <label for="primaryUse">1次利用:</label>
-          <select id="primaryUse"></select>
+          <div class="slider-section-header">
+            <label for="primaryUse">1次利用:</label>
+            <select id="primaryUse"></select>
+            <button id="resetPrimaryButton">RESET</button>
+          </div>
           <div id="primary-sliders"></div>
         </div>
         <div class="slider-section">
-          <label for="secondaryUse">2次利用:</label>
-          <select id="secondaryUse"></select>
+          <div class="slider-section-header">
+            <label for="secondaryUse">2次利用:</label>
+            <select id="secondaryUse"></select>
+            <button id="resetSecondaryButton">RESET</button>
+          </div>
           <div id="secondary-sliders"></div>
         </div>
         <div class="slider-section">
-          <label>共通設定</label>
+          <div class="slider-section-header">
+            <label>共通設定</label>
+            <button id="resetCommonButton">RESET</button>
+          </div>
           <div id="common-sliders"></div>
         </div>
       </div>
     </div>
+    <div id="info"></div>
+  </div>
     <div id="info"></div>
   </div>
 

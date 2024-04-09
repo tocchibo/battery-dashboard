@@ -71,6 +71,46 @@ function updateSliders(category) {
   updateInfo();
 }
 
+// スライダーの値を初期値にリセットする関数
+function resetSliders(category) {
+  // 入力データを読み込む
+  const inputData = loadData();
+
+  // 各スライダーについて
+  Object.keys(settings.sliders).forEach(key => {
+    const setting = settings.sliders[key];
+    if (setting.dataProperty && setting.category === category) {
+      // スライダーの初期値を取得
+      let initialValue;
+      if (category === 'primary') {
+        const primaryUse = document.getElementById('primaryUse').value;
+        const application = inputData.applications.find(app => app.name === primaryUse);
+        initialValue = getNestedValue(application, setting.dataProperty);
+      } else if (category === 'secondary') {
+        const secondaryUse = document.getElementById('secondaryUse').value;
+        const application = inputData.applications.find(app => app.name === secondaryUse);
+        initialValue = getNestedValue(application, setting.dataProperty);
+      } else {
+        initialValue = getNestedValue(inputData, setting.dataProperty);
+      }
+
+      // スライダーの値を初期値に設定
+      document.getElementById(key + '-slider').value = setting.percentage ? initialValue * 100 : initialValue;
+      // 入力欄の値を初期値に設定
+      document.getElementById(key + '-input').value = setting.percentage ? initialValue * 100 : initialValue;
+      // 表示値を初期値に設定
+      document.getElementById(key + '-value').textContent = setting.percentage ? initialValue * 100 : initialValue;
+    }
+  });
+
+  // 入力データを更新
+  updateInputDataFromSliders();
+  // グラフを更新
+  updatePlots();
+  // 追加情報を更新
+  updateInfo();
+}
+
 // ネストされたデータの値を取得する関数
 function getNestedValue(obj, propertyPath) {
   return propertyPath.split('.').reduce((currentObj, property) => currentObj[property], obj);
@@ -92,6 +132,10 @@ function init() {
   document.getElementById('primaryUse').addEventListener('change', () => updateSliders('primary'));
   // 2次利用のドロップダウンメニューの変更イベントにスライダーの更新を紐付け
   document.getElementById('secondaryUse').addEventListener('change', () => updateSliders('secondary'));
+  // リセットボタンにクリックイベントリスナーを追加
+  document.getElementById('resetPrimaryButton').addEventListener('click', () => resetSliders('primary'));
+  document.getElementById('resetSecondaryButton').addEventListener('click', () => resetSliders('secondary'));
+  document.getElementById('resetCommonButton').addEventListener('click', () => resetSliders('common'));
 }
 // アプリケーションを初期化
 init();
