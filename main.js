@@ -107,7 +107,7 @@ function resetSliders(category) {
       // スライダーの値を初期値に設定
       document.getElementById(key + '-slider').value = setting.percentage ? initialValue * 100 : initialValue;
       // 入力欄の値を初期値に設定
-      document.getElementById(key + '-input').value = Number(initialValue).toLocaleString();
+      document.getElementById(key + '-input').value = setting.percentage ? Number(initialValue * 100).toLocaleString() : Number(initialValue).toLocaleString();
       // 表示値を初期値に設定
       const valueSpan = document.getElementById(key + '-value');
       valueSpan.textContent = '';
