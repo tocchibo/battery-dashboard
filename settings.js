@@ -109,7 +109,7 @@ const settings = {
       max: 10,
       value: 6.23092,
       step: 0.001,
-      label: "SOHのカレンダー劣化係数　[0.001%/days]",
+      label: "SOHのカレンダー劣化係数 [0.001%/days]",
       category: "common",
       dataProperty: "CalendarDegradationFactor",
       percentage: false
@@ -119,7 +119,7 @@ const settings = {
       max: 40,
       value: 28.02775,
       step: 0.001,
-      label: "SOHのサイクル劣化係数　[0.001%/cycles]",
+      label: "SOHのサイクル劣化係数 [0.001%/cycles]",
       category: "common",
       dataProperty: "CycleDegradationFactor",
       percentage: false
@@ -128,7 +128,7 @@ const settings = {
       min: 0,
       max: 10000000,
       step: 10000,
-      label: "既存装置コスト[円/システム]",
+      label: "既存装置コスト [円/システム]",
       category: "primary",
       dataProperty: "existingEquipmentCost",
       percentage: false
@@ -137,7 +137,7 @@ const settings = {
       min: 0,
       max: 10000000,
       step: 10000,
-      label: "新規装置コスト(電池除く)[円/システム]",
+      label: "新規装置コスト(電池除く) [円/システム]",
       category: "primary",
       dataProperty: "newEquipmentCost",
       percentage: false
@@ -146,7 +146,7 @@ const settings = {
       min: 0,
       max: 10000000,
       step: 10000,
-      label: "既存装置コスト[円/システム]",
+      label: "既存装置コスト [円/システム]",
       category: "secondary",
       dataProperty: "existingEquipmentCost",
       percentage: false
@@ -155,7 +155,7 @@ const settings = {
       min: 0,
       max: 10000000,
       step: 10000,
-      label: "新規装置コスト(電池除く)[円/システム]",
+      label: "新規装置コスト(電池除く) [円/システム]",
       category: "secondary",
       dataProperty: "newEquipmentCost",
       percentage: false

@@ -17,7 +17,7 @@ function createBarTrace(x, y, name, color) {
 }
 
 // グラフ描画用のデータを準備する
-function prepareGraphData(primaryUse, secondaryUse, inputData) {
+function prepareGraphData(primaryUse, secondaryUse) {
   // 選択された用途の情報を取得
   const primaryApplication = inputData.applications.find((app) => app.name === primaryUse);
   const secondaryApplication = inputData.applications.find((app) => app.name === secondaryUse);
@@ -124,7 +124,7 @@ function updatePlots() {
   const primaryUse = document.getElementById('primaryUse').value;
   const secondaryUse = document.getElementById('secondaryUse').value;
 
-  const graphData = prepareGraphData(primaryUse, secondaryUse, inputData);
+  const graphData = prepareGraphData(primaryUse, secondaryUse);
 
   if (graphData.economicChartData) {
     const layout = {

@@ -33,7 +33,11 @@ function updateInputDataFromSliders() {
   }
 }
 
-function loadData(theme) {
+function updateInputData() {
+  inputData = loadData();
+}
+
+function loadData() {
   const inputData = {
     exchangeRate: 144,  // 為替レート[円/ドル]
     monitoringCostOpPerYear: 801,  // 年間モニタリングコスト原価[円/年]
