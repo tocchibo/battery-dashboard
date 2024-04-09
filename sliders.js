@@ -1,5 +1,7 @@
 // sliders.js
 
+const initialValues = {};
+
 // スライダーを作成する関数
 function createSliders() {
   // 共通設定のスライダーコンテナを取得
@@ -43,6 +45,9 @@ function createSliders() {
       // 設定の値を更新
       setting.value = value;
     }
+
+    // スライダーの初期値を保存
+    initialValues[key] = setting.value;
     
     // スライダーのラベルを作成
     const label = document.createElement('label');
@@ -73,7 +78,12 @@ function createSliders() {
     // 値の表示要素を作成
     const span = document.createElement('span');
     span.id = key + '-value';
-    span.textContent = Number(slider.value).toLocaleString();
+    const initialValue = initialValues[key];
+    const currentValue = Number(slider.value);
+    const diff = setting.percentage ? ((currentValue - initialValue) / initialValue * 100).toFixed(2) : (currentValue - initialValue).toFixed(2);
+    const formattedDiff = `${diff}${setting.percentage ? '%' : ''}`;
+    span.textContent = diff !== '0.00' ? formattedDiff : '';
+    span.style.color = diff > 0 ? 'blue' : (diff < 0 ? 'red' : 'inherit');
     container.appendChild(span);
 
     // カテゴリに応じてスライダーを追加
@@ -94,7 +104,12 @@ function createSliders() {
     // スライダーの入力イベントを設定
     slider.oninput = function() {
       const value = this.value;
-      document.getElementById(key + '-value').textContent = Number(value).toLocaleString();
+      const initialValue = initialValues[key];
+      const diff = setting.percentage ? ((value - initialValue) / initialValue * 100).toFixed(2) : (value - initialValue).toFixed(2);
+      const formattedDiff = `${diff}${setting.percentage ? '%' : ''}`;
+      const valueSpan = document.getElementById(key + '-value');
+      valueSpan.textContent = diff !== '0.00' ? formattedDiff : '';
+      valueSpan.style.color = diff > 0 ? 'blue' : (diff < 0 ? 'red' : 'inherit');
       document.getElementById(key + '-input').value = value;
       updateInputDataFromSliders();
       updatePlots();
@@ -103,7 +118,12 @@ function createSliders() {
     // 入力欄の入力イベントを設定
     input.oninput = function() {
       const value = this.value;
-      document.getElementById(key + '-value').textContent = Number(value).toLocaleString();
+      const initialValue = initialValues[key];
+      const diff = setting.percentage ? ((value - initialValue) / initialValue * 100).toFixed(2) : (value - initialValue).toFixed(2);
+      const formattedDiff = `${diff}${setting.percentage ? '%' : ''}`;
+      const valueSpan = document.getElementById(key + '-value');
+      valueSpan.textContent = diff !== '0.00' ? formattedDiff : '';
+      valueSpan.style.color = diff > 0 ? 'blue' : (diff < 0 ? 'red' : 'inherit');
       document.getElementById(key + '-slider').value = value;
       updateInputDataFromSliders();
       updatePlots();

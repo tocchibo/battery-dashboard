@@ -58,8 +58,16 @@ function updateSliders(category) {
       document.getElementById(key + '-slider').value = setting.percentage ? value * 100 : value;
       // 入力欄の値を更新
       document.getElementById(key + '-input').value = setting.percentage ? value * 100 : value;
+      // initialValuesを更新
+      initialValues[key] = value;  
       // 表示値を更新
-      document.getElementById(key + '-value').textContent = setting.percentage ? value * 100 : value;
+      const initialValue = initialValues[key];
+      const diff = setting.percentage ? ((value - initialValue) / initialValue * 100).toFixed(2) : (value - initialValue).toFixed(2);
+      const formattedDiff = `${diff}${setting.percentage ? '%' : ''}`;
+      const valueSpan = document.getElementById(key + '-value');
+      valueSpan.textContent = diff !== '0.00' ? formattedDiff : '';
+      valueSpan.style.color = diff > 0 ? 'blue' : (diff < 0 ? 'red' : 'inherit');
+
     }
   });
 

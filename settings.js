@@ -107,7 +107,7 @@ const settings = {
     CalendarDegradationFactor: {
       min: 0,
       max: 10,
-      value: 6.23092,
+      value: 6,
       step: 0.001,
       label: "SOHのカレンダー劣化係数 [0.001%/days]",
       category: "common",
@@ -117,7 +117,7 @@ const settings = {
     CycleDegradationFactor: {
       min: 0,
       max: 40,
-      value: 28.02775,
+      value: 28,
       step: 0.001,
       label: "SOHのサイクル劣化係数 [0.001%/cycles]",
       category: "common",
