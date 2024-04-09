@@ -63,11 +63,13 @@ function updateSliders(category) {
       // 表示値を更新
       const initialValue = initialValues[key];
       const diff = setting.percentage ? ((value - initialValue) / initialValue * 100).toFixed(2) : (value - initialValue).toFixed(2);
-      const formattedDiff = `${diff}${setting.percentage ? '%' : ''}`;
+      const formattedDiff = `${Number(diff).toLocaleString()}${setting.percentage ? '%' : ''}`;
       const valueSpan = document.getElementById(key + '-value');
       valueSpan.textContent = diff !== '0.00' ? formattedDiff : '';
       valueSpan.style.color = diff > 0 ? 'blue' : (diff < 0 ? 'red' : 'inherit');
 
+      // 入力欄の値を更新
+      document.getElementById(key + '-input').value = Number(value).toLocaleString();
     }
   });
 
@@ -105,9 +107,14 @@ function resetSliders(category) {
       // スライダーの値を初期値に設定
       document.getElementById(key + '-slider').value = setting.percentage ? initialValue * 100 : initialValue;
       // 入力欄の値を初期値に設定
-      document.getElementById(key + '-input').value = setting.percentage ? initialValue * 100 : initialValue;
+      document.getElementById(key + '-input').value = Number(initialValue).toLocaleString();
       // 表示値を初期値に設定
-      document.getElementById(key + '-value').textContent = setting.percentage ? initialValue * 100 : initialValue;
+      const valueSpan = document.getElementById(key + '-value');
+      valueSpan.textContent = '';
+      valueSpan.style.color = 'inherit';
+
+      // initialValuesを更新
+      initialValues[key] = initialValue;
     }
   });
 

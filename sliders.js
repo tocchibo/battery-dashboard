@@ -67,12 +67,9 @@ function createSliders() {
 
     // 入力欄を作成
     const input = document.createElement('input');
-    input.type = 'number';
+    input.type = 'text';
     input.id = key + '-input';
-    input.value = setting.value;
-    input.min = setting.min;
-    input.max = setting.max;
-    input.step = setting.step;
+    input.value = Number(setting.value).toLocaleString();
     container.appendChild(input);
 
     // 値の表示要素を作成
@@ -81,7 +78,7 @@ function createSliders() {
     const initialValue = initialValues[key];
     const currentValue = Number(slider.value);
     const diff = setting.percentage ? ((currentValue - initialValue) / initialValue * 100).toFixed(2) : (currentValue - initialValue).toFixed(2);
-    const formattedDiff = `${diff}${setting.percentage ? '%' : ''}`;
+    const formattedDiff = `${Number(diff).toLocaleString()}${setting.percentage ? '%' : ''}`;
     span.textContent = diff !== '0.00' ? formattedDiff : '';
     span.style.color = diff > 0 ? 'blue' : (diff < 0 ? 'red' : 'inherit');
     container.appendChild(span);
@@ -106,27 +103,31 @@ function createSliders() {
       const value = this.value;
       const initialValue = initialValues[key];
       const diff = setting.percentage ? ((value - initialValue) / initialValue * 100).toFixed(2) : (value - initialValue).toFixed(2);
-      const formattedDiff = `${diff}${setting.percentage ? '%' : ''}`;
+      const formattedDiff = `${Number(diff).toLocaleString()}${setting.percentage ? '%' : ''}`;
       const valueSpan = document.getElementById(key + '-value');
       valueSpan.textContent = diff !== '0.00' ? formattedDiff : '';
       valueSpan.style.color = diff > 0 ? 'blue' : (diff < 0 ? 'red' : 'inherit');
-      document.getElementById(key + '-input').value = value;
+      document.getElementById(key + '-input').value = Number(value).toLocaleString();
       updateInputDataFromSliders();
       updatePlots();
     };
 
     // 入力欄の入力イベントを設定
     input.oninput = function() {
-      const value = this.value;
-      const initialValue = initialValues[key];
-      const diff = setting.percentage ? ((value - initialValue) / initialValue * 100).toFixed(2) : (value - initialValue).toFixed(2);
-      const formattedDiff = `${diff}${setting.percentage ? '%' : ''}`;
-      const valueSpan = document.getElementById(key + '-value');
-      valueSpan.textContent = diff !== '0.00' ? formattedDiff : '';
-      valueSpan.style.color = diff > 0 ? 'blue' : (diff < 0 ? 'red' : 'inherit');
-      document.getElementById(key + '-slider').value = value;
-      updateInputDataFromSliders();
-      updatePlots();
+      const value = this.value.replace(/,/g, '');
+      if (!isNaN(value) && value >= setting.min && value <= setting.max) {
+        const initialValue = initialValues[key];
+        const diff = setting.percentage ? ((value - initialValue) / initialValue * 100).toFixed(2) : (value - initialValue).toFixed(2);
+        const formattedDiff = `${Number(diff).toLocaleString()}${setting.percentage ? '%' : ''}`;
+        const valueSpan = document.getElementById(key + '-value');
+        valueSpan.textContent = diff !== '0.00' ? formattedDiff : '';
+        valueSpan.style.color = diff > 0 ? 'blue' : (diff < 0 ? 'red' : 'inherit');
+        document.getElementById(key + '-slider').value = value;
+        updateInputDataFromSliders();
+        updatePlots();
+      } else {
+        this.value = initialValues[key].toLocaleString();
+      }
     };
   });
 }
