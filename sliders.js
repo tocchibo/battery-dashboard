@@ -3,131 +3,132 @@
 const initialValues = {};
 
 // スライダーを作成する関数
+function createSlider(key, setting, container) {
+  const label = document.createElement('label');
+  label.htmlFor = key + '-slider';
+  label.textContent = setting.label + ': ';
+  container.appendChild(label);
+
+  const slider = document.createElement('input');
+  slider.type = 'range';
+  slider.id = key + '-slider';
+  slider.min = setting.min;
+  slider.max = setting.max;
+  slider.step = setting.step;
+  container.appendChild(slider);
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.id = key + '-input';
+  container.appendChild(input);
+
+  const span = document.createElement('span');
+  span.id = key + '-value';
+  container.appendChild(span);
+
+  return slider;
+}
+
+// スライダーの初期値を設定する関数
+function initializeSliderValue(key, setting, slider) {
+  let selectedApplication = null;
+  if (setting.category === 'primary') {
+    selectedApplication = inputData.applications.find(app => app.name === document.getElementById('primaryUse').value);
+  } else if (setting.category === 'secondary') {
+    selectedApplication = inputData.applications.find(app => app.name === document.getElementById('secondaryUse').value);
+  }
+
+  if (selectedApplication && setting.dataProperty) {
+    const propertyPath = setting.dataProperty.split('.');
+    let value = selectedApplication;
+    for (let i = 0; i < propertyPath.length; i++) {
+      value = value[propertyPath[i]];
+    }
+    setting.value = value;
+  }
+
+  initialValues[key] = setting.value;
+  slider.value = setting.value;
+  document.getElementById(key + '-input').value = Number(setting.value).toLocaleString();
+  updateDifferenceDisplay(key, setting.value, setting.value);
+}
+
+// スライダーの入力イベントハンドラ
+function handleSliderInput(key, setting) {
+  const value = this.value;
+  document.getElementById(key + '-input').value = Number(value).toLocaleString();
+  updateDifferenceDisplay(key, value, initialValues[key]);
+  updateInputDataFromSliders();
+  updatePlots();
+}
+
+// 入力欄の入力イベントハンドラ
+function handleInputChange(key, setting) {
+  const value = this.value.replace(/,/g, '');
+  if (!isNaN(value) && value >= setting.min && value <= setting.max) {
+    document.getElementById(key + '-slider').value = value;
+    updateDifferenceDisplay(key, value, initialValues[key]);
+    updateInputDataFromSliders();
+    updatePlots();
+  } else {
+    this.value = initialValues[key].toLocaleString();
+  }
+}
+
+// 差分を計算する関数
+function calculateDifference(currentValue, initialValue, percentage) {
+  if (percentage) {
+    return ((currentValue - initialValue) / initialValue * 100).toFixed(2);
+  } else {
+    return (currentValue - initialValue).toFixed(2);
+  }
+}
+
+// 差分の表示を更新する関数
+function updateDifferenceDisplay(key, currentValue, initialValue) {
+  const setting = settings.sliders[key];
+  const difference = calculateDifference(currentValue, initialValue, setting.percentage);
+  const formattedDifference = `${Number(difference).toLocaleString()}${setting.percentage ? '%' : ''}`;
+  const valueSpan = document.getElementById(key + '-value');
+  valueSpan.textContent = difference !== '0.00' ? formattedDifference : '';
+  valueSpan.style.color = difference > 0 ? 'blue' : (difference < 0 ? 'red' : 'inherit');
+}
+
+// スライダーを作成する関数
 function createSliders() {
-  // 共通設定のスライダーコンテナを取得
   const commonSlidersContainer = document.getElementById('common-sliders');
-  // 1次利用のスライダーコンテナを取得
   const primarySlidersContainer = document.getElementById('primary-sliders');
-  // 2次利用のスライダーコンテナを取得
   const secondarySlidersContainer = document.getElementById('secondary-sliders');
 
-  // スライダーコンテナを初期化
   commonSlidersContainer.innerHTML = '';
   primarySlidersContainer.innerHTML = '';
   secondarySlidersContainer.innerHTML = '';
 
-  // スライダーの設定を取得
   const sliderSettings = settings.sliders;
 
-  // 各スライダーの設定について
   Object.keys(sliderSettings).forEach(key => {
     const setting = sliderSettings[key];
-    // スライダーのコンテナを作成
-    const container = document.createElement('div');
+    let container;
 
-    let selectedApplication = null;
-    if (setting.category === 'primary') {
-      // 1次利用のアプリケーションを取得
-      selectedApplication = inputData.applications.find(app => app.name === document.getElementById('primaryUse').value);
-    } else if (setting.category === 'secondary') {
-      // 2次利用のアプリケーションを取得
-      selectedApplication = inputData.applications.find(app => app.name === document.getElementById('secondaryUse').value);
-    }
-
-    if (selectedApplication && setting.dataProperty) {
-      // データプロパティのパスを分割
-      const propertyPath = setting.dataProperty.split('.');
-      let value = selectedApplication;
-      // パスに沿ってデータの値を取得
-      for (let i = 0; i < propertyPath.length; i++) {
-        value = value[propertyPath[i]];
-      }
-      // 設定の値を更新
-      setting.value = value;
-    }
-
-    // スライダーの初期値を保存
-    initialValues[key] = setting.value;
-    
-    // スライダーのラベルを作成
-    const label = document.createElement('label');
-    label.htmlFor = key + '-slider';
-    label.textContent = setting.label + ': ';
-    container.appendChild(label);
-
-    // スライダーを作成
-    const slider = document.createElement('input');
-    slider.type = 'range';
-    slider.id = key + '-slider';
-    slider.min = setting.min;
-    slider.max = setting.max;
-    slider.value = setting.value;
-    slider.step = setting.step;
-    container.appendChild(slider);
-
-    // 入力欄を作成
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.id = key + '-input';
-    input.value = Number(setting.value).toLocaleString();
-    container.appendChild(input);
-
-    // 値の表示要素を作成
-    const span = document.createElement('span');
-    span.id = key + '-value';
-    const initialValue = initialValues[key];
-    const currentValue = Number(slider.value);
-    const diff = setting.percentage ? ((currentValue - initialValue) / initialValue * 100).toFixed(2) : (currentValue - initialValue).toFixed(2);
-    const formattedDiff = `${Number(diff).toLocaleString()}${setting.percentage ? '%' : ''}`;
-    span.textContent = diff !== '0.00' ? formattedDiff : '';
-    span.style.color = diff > 0 ? 'blue' : (diff < 0 ? 'red' : 'inherit');
-    container.appendChild(span);
-
-    // カテゴリに応じてスライダーを追加
     switch (setting.category) {
       case 'common':
-        commonSlidersContainer.appendChild(container);
+        container = commonSlidersContainer;
         break;
       case 'primary':
-        primarySlidersContainer.appendChild(container);
+        container = primarySlidersContainer;
         break;
       case 'secondary':
-        secondarySlidersContainer.appendChild(container);
+        container = secondarySlidersContainer;
         break;
       default:
         console.warn(`Unknown category for slider: ${key}`);
+        return;
     }
 
-    // スライダーの入力イベントを設定
-    slider.oninput = function() {
-      const value = this.value;
-      const initialValue = initialValues[key];
-      const diff = setting.percentage ? ((value - initialValue) / initialValue * 100).toFixed(2) : (value - initialValue).toFixed(2);
-      const formattedDiff = `${Number(diff).toLocaleString()}${setting.percentage ? '%' : ''}`;
-      const valueSpan = document.getElementById(key + '-value');
-      valueSpan.textContent = diff !== '0.00' ? formattedDiff : '';
-      valueSpan.style.color = diff > 0 ? 'blue' : (diff < 0 ? 'red' : 'inherit');
-      document.getElementById(key + '-input').value = Number(value).toLocaleString();
-      updateInputDataFromSliders();
-      updatePlots();
-    };
+    const slider = createSlider(key, setting, container);
+    initializeSliderValue(key, setting, slider);
 
-    // 入力欄の入力イベントを設定
-    input.oninput = function() {
-      const value = this.value.replace(/,/g, '');
-      if (!isNaN(value) && value >= setting.min && value <= setting.max) {
-        const initialValue = initialValues[key];
-        const diff = setting.percentage ? ((value - initialValue) / initialValue * 100).toFixed(2) : (value - initialValue).toFixed(2);
-        const formattedDiff = `${Number(diff).toLocaleString()}${setting.percentage ? '%' : ''}`;
-        const valueSpan = document.getElementById(key + '-value');
-        valueSpan.textContent = diff !== '0.00' ? formattedDiff : '';
-        valueSpan.style.color = diff > 0 ? 'blue' : (diff < 0 ? 'red' : 'inherit');
-        document.getElementById(key + '-slider').value = value;
-        updateInputDataFromSliders();
-        updatePlots();
-      } else {
-        this.value = initialValues[key].toLocaleString();
-      }
-    };
+    slider.oninput = handleSliderInput.bind(slider, key, setting);
+    document.getElementById(key + '-input').oninput = handleInputChange.bind(document.getElementById(key + '-input'), key, setting);
   });
 }
