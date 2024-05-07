@@ -49,14 +49,14 @@ function initializeSliderValue(key, setting, slider) {
 
   initialValues[key] = setting.value;
   slider.value = setting.value;
-  document.getElementById(key + '-input').value = Number(setting.value).toLocaleString();
+  document.getElementById(key + '-input').value = numberToLocalizedString(setting.value);
   updateDifferenceDisplay(key, setting.value, setting.value);
 }
 
 // スライダーの入力イベントハンドラ
 function handleSliderInput(key, setting) {
   const value = this.value;
-  document.getElementById(key + '-input').value = Number(value).toLocaleString();
+  document.getElementById(key + '-input').value = numberToLocalizedString(value);
   updateDifferenceDisplay(key, value, initialValues[key]);
   updateInputDataFromSliders();
   updatePlots();
@@ -64,14 +64,14 @@ function handleSliderInput(key, setting) {
 
 // 入力欄の入力イベントハンドラ
 function handleInputChange(key, setting) {
-  const value = this.value.replace(/,/g, '');
+  const value = localizedStringToNumber(this.value);
   if (!isNaN(value) && value >= setting.min && value <= setting.max) {
     document.getElementById(key + '-slider').value = value;
     updateDifferenceDisplay(key, value, initialValues[key]);
     updateInputDataFromSliders();
     updatePlots();
   } else {
-    this.value = initialValues[key].toLocaleString();
+    this.value = numberToLocalizedString(initialValues[key]);
   }
 }
 
@@ -88,10 +88,11 @@ function calculateDifference(currentValue, initialValue, percentage) {
 function updateDifferenceDisplay(key, currentValue, initialValue) {
   const setting = settings.sliders[key];
   const difference = calculateDifference(currentValue, initialValue, setting.percentage);
-  const formattedDifference = `${Number(difference).toLocaleString()}${setting.percentage ? '%' : ''}`;
+  const formattedDifference = `${numberToLocalizedString(difference)}${setting.percentage ? '%' : ''}`;
+  
   const valueSpan = document.getElementById(key + '-value');
   valueSpan.textContent = difference !== '0.00' ? formattedDifference : '';
-  valueSpan.style.color = difference > 0 ? 'blue' : (difference < 0 ? 'red' : 'inherit');
+  valueSpan.style.color = parseFloat(difference) > 0 ? 'blue' : (parseFloat(difference) < 0 ? 'red' : 'inherit');
 }
 
 // スライダーを作成する関数
