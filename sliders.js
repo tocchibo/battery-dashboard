@@ -9,13 +9,25 @@ function createSlider(key, setting, container) {
   label.textContent = setting.label + ': ';
   container.appendChild(label);
 
+  const rangeContainer = document.createElement('div');
+  rangeContainer.classList.add('range_container');
+  rangeContainer.style.display = 'inline-block';
+
   const slider = document.createElement('input');
   slider.type = 'range';
   slider.id = key + '-slider';
   slider.min = setting.min;
   slider.max = setting.max;
   slider.step = setting.step;
-  container.appendChild(slider);
+  slider.value = setting.value;
+  slider.classList.add('percent_range');
+  rangeContainer.appendChild(slider);
+
+  const rangeActive = document.createElement('div');
+  rangeActive.classList.add('range_active');
+  rangeContainer.appendChild(rangeActive);
+
+  container.appendChild(rangeContainer);
 
   const input = document.createElement('input');
   input.type = 'text';
@@ -51,6 +63,38 @@ function initializeSliderValue(key, setting, slider) {
   slider.value = setting.value;
   document.getElementById(key + '-input').value = numberToLocalizedString(setting.value);
   updateDifferenceDisplay(key, setting.value, setting.value);
+
+  const initialValue = parseFloat(slider.value);
+  const initialPosition = (initialValue - parseFloat(slider.min)) / (parseFloat(slider.max) - parseFloat(slider.min)) * slider.offsetWidth;
+  $(slider).next('.range_active').css({
+    'left': initialPosition + 'px',
+    'width': 0
+  });
+
+  $(slider).on('input', function() {
+    const rangePercent = parseFloat($(this).val());
+    const currentPosition = (rangePercent - parseFloat($(this).attr('min'))) / (parseFloat($(this).attr('max')) - parseFloat($(this).attr('min'))) * this.offsetWidth;
+
+    if (rangePercent > initialValue) {
+      $(this).next('.range_active').css({
+        'left': initialPosition + 'px',
+        'width': (currentPosition - initialPosition) + 'px'
+      });
+    } else if (rangePercent < initialValue) {
+      $(this).next('.range_active').css({
+        'left': currentPosition + 'px',
+        'width': (initialPosition - currentPosition) + 'px'
+      });
+    } else {
+      $(this).next('.range_active').css({
+        'width': 0
+      });
+    }
+    document.getElementById(key + '-input').value = numberToLocalizedString(rangePercent);
+    updateDifferenceDisplay(key, rangePercent, initialValues[key]);
+    updateInputDataFromSliders();
+    updatePlots();
+  });
 }
 
 // スライダーの入力イベントハンドラ
@@ -75,19 +119,10 @@ function handleInputChange(key, setting) {
   }
 }
 
-// 差分を計算する関数
-function calculateDifference(currentValue, initialValue, percentage) {
-  if (percentage) {
-    return ((currentValue - initialValue) / initialValue * 100).toFixed(2);
-  } else {
-    return (currentValue - initialValue).toFixed(2);
-  }
-}
-
 // 差分の表示を更新する関数
 function updateDifferenceDisplay(key, currentValue, initialValue) {
   const setting = settings.sliders[key];
-  const difference = calculateDifference(currentValue, initialValue, setting.percentage);
+  const difference = (currentValue - initialValue).toFixed(2);
   const formattedDifference = `${numberToLocalizedString(difference)}${setting.percentage ? '%' : ''}`;
   
   const valueSpan = document.getElementById(key + '-value');
