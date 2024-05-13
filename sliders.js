@@ -9,9 +9,11 @@ function createSlider(key, setting, container) {
   label.textContent = setting.label + ': ';
   container.appendChild(label);
 
+  const sliderContainer = document.createElement('div');
+  sliderContainer.classList.add('slider-container');
+
   const rangeContainer = document.createElement('div');
   rangeContainer.classList.add('range_container');
-  rangeContainer.style.display = 'inline-block';
 
   const slider = document.createElement('input');
   slider.type = 'range';
@@ -27,16 +29,19 @@ function createSlider(key, setting, container) {
   rangeActive.classList.add('range_active');
   rangeContainer.appendChild(rangeActive);
 
-  container.appendChild(rangeContainer);
+  sliderContainer.appendChild(rangeContainer);
 
   const input = document.createElement('input');
   input.type = 'text';
   input.id = key + '-input';
-  container.appendChild(input);
+  sliderContainer.appendChild(input);
 
   const span = document.createElement('span');
   span.id = key + '-value';
-  container.appendChild(span);
+  span.classList.add('slider-value');
+  sliderContainer.appendChild(span);
+
+  container.appendChild(sliderContainer);
 
   return slider;
 }
