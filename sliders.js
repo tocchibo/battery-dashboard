@@ -70,7 +70,13 @@ function initializeSliderValue(key, setting, slider) {
   updateDifferenceDisplay(key, setting.value, setting.value);
 
   const initialValue = parseFloat(slider.value);
-  const initialPosition = (initialValue - parseFloat(slider.min)) / (parseFloat(slider.max) - parseFloat(slider.min)) * slider.offsetWidth;
+  const thumbWidth = $(slider).css('--thumb-width') ? parseFloat($(slider).css('--thumb-width')) : 20;
+  const sliderWidth = slider.offsetWidth;
+  const sliderRange = slider.max - slider.min;
+  const valueRange = initialValue - slider.min;
+  const thumbPosition = (valueRange / sliderRange) * (sliderWidth - thumbWidth);
+  const initialPosition = thumbPosition + (thumbWidth / 2);
+  
   $(slider).next('.range_active').css({
     'left': initialPosition + 'px',
     'width': 0
@@ -78,7 +84,9 @@ function initializeSliderValue(key, setting, slider) {
 
   $(slider).on('input', function() {
     const rangePercent = parseFloat($(this).val());
-    const currentPosition = (rangePercent - parseFloat($(this).attr('min'))) / (parseFloat($(this).attr('max')) - parseFloat($(this).attr('min'))) * this.offsetWidth;
+    const valueRange = rangePercent - slider.min;
+    const thumbPosition = (valueRange / sliderRange) * (sliderWidth - thumbWidth);
+    const currentPosition = thumbPosition + (thumbWidth / 2);
 
     if (rangePercent > initialValue) {
       $(this).next('.range_active').css({
