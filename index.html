@@ -1,178 +1,57 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-  <style>
-    .container {
-      display: flex;
-      flex-direction: column;
-    }
-    .chart-container, .main-container {
-      display: flex;
-      flex-direction: row;
-      height: 50vh;
-    }
-    .chart {
-      flex: 1 1 auto;
-      max-width: 50%;
-    }
-    @media (max-width: 800px) {
-      .chart-container, .main-container {
-        flex-direction: column;
-      }
-      .chart {
-        max-width: 100%;
-      }
-    }
-    #info {
-      font-size: 1.2em;
-      margin-bottom: 10px;
-      padding: 10px;
-    }
-    #sliders div {
-      margin: 2px 0;
-    }
-    #sliders label {
-      display: block;
-      font-size: 0.8em;
-      margin: 2px 0;
-    }
-    #sliders .slider-container {
-      display: flex;
-      align-items: center;
-    }
-    #sliders input[type="range"] {
-      flex: 0 0 60%;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-    #sliders input[type="text"] {
-      flex: 0 0 20%;
-      font-size: 0.8em;
-      margin-right: 10px;
-    }
-    #sliders span {
-      flex: 0 0 20%;
-      font-size: 0.8em;
-      text-align: right;
-    }
-    #sliders {
-      display: flex;
-      flex-direction: column;
-    }
-    .slider-section-wrapper {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-    .slider-section {
-      flex: 1;
-      padding: 10px;
-      min-width: 300px;
-      background-color: #f0f0f0;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .slider-section h3 {
-      margin-bottom: 10px;
-    }
-    .slider-section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    .slider-section-header button {
-      margin-left: 10px;
-    }
-    .range_container {
-      width: 100%;
-      height: 100%;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      padding: 0 10px;
-      box-sizing: border-box;
-    }
-    input[type="range"] {
-      --thumb-width: 20px;
-      position: absolute;
-      -webkit-appearance: none;
-      appearance: none;
-      outline: 0;
-      background: #CBCBCB;
-      height: 4px;
-      width: 100%;
-      border-radius: 1px;
-      border: 0;
-    }
-    input[type="range"]::-webkit-slider-runnable-track {
-      -webkit-appearance: none;
-    }
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      background: #08CDEC;
-      width: var(--thumb-width);
-      height: var(--thumb-width);
-      border-radius: 50%;
-    }
-    .range_active {
-      height: 8px;
-      border-radius: 4px;
-      background: #08CDEC;
-      position: absolute;
-      z-index: 1;
-      pointer-events: none;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="chart-container">
-      <div class="chart" id="economicChart"></div>
-      <div class="chart" id="costChart"></div>
-    </div>
-    <div id="sliders">
-      <div class="slider-section-wrapper">
-        <div class="slider-section">
-          <div class="slider-section-header">
-            <label for="primaryUse">1次利用:</label>
-            <select id="primaryUse"></select>
-            <button id="resetPrimaryButton">RESET</button>
+  <head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="chart-container">
+        <div class="chart" id="economicChart"></div>
+        <div class="chart" id="costChart"></div>
+      </div>
+      <div id="sliders">
+        <div class="slider-section-wrapper">
+          <div class="slider-section">
+            <div class="slider-section-header">
+              <label for="primaryUse">1次利用:</label>
+              <select id="primaryUse"></select>
+              <button id="resetPrimaryButton">RESET</button>
+            </div>
+            <div id="primary-sliders"></div>
           </div>
-          <div id="primary-sliders"></div>
-        </div>
-        <div class="slider-section">
-          <div class="slider-section-header">
-            <label for="secondaryUse">2次利用:</label>
-            <select id="secondaryUse"></select>
-            <button id="resetSecondaryButton">RESET</button>
+          <div class="slider-section">
+            <div class="slider-section-header">
+              <label for="secondaryUse">2次利用:</label>
+              <select id="secondaryUse"></select>
+              <button id="resetSecondaryButton">RESET</button>
+            </div>
+            <div id="secondary-sliders"></div>
           </div>
-          <div id="secondary-sliders"></div>
-        </div>
-        <div class="slider-section">
-          <div class="slider-section-header">
-            <label>共通設定</label>
-            <button id="resetCommonButton">RESET</button>
+          <div class="slider-section">
+            <div class="slider-section-header">
+              <label>共通設定</label>
+              <button id="resetCommonButton">RESET</button>
+            </div>
+            <div id="common-sliders"></div>
           </div>
-          <div id="common-sliders"></div>
         </div>
       </div>
+      <div id="info"></div>
     </div>
-    <div id="info"></div>
-  </div>
-  <script src="settings.js"></script>
-  <script src="data.js"></script>
-  <script src="utils.js"></script>
-  <script src="sliders.js"></script>
-  <script src="costs.js"></script>
-  <script src="gain.js"></script>
-  <script src="plots.js"></script>
-  <script src="info.js"></script>
-  <script src="main.js"></script>
-</body>
+    <script src="scripts/settings.js"></script>
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/data.js"></script>
+    <script src="scripts/sliders.js"></script>
+    <script src="scripts/costs.js"></script>
+    <script src="scripts/gains.js"></script>
+    <script src="scripts/info.js"></script>
+    <script src="scripts/charts.js"></script>
+    <script src="scripts/main.js"></script>
+  </body>
 </html>

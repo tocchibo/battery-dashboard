@@ -1,4 +1,3 @@
-// 入力データからシステムの仕様を計算する
 function calculateSystemSpecs(application, inputData) {
     const { moduleData, packData, systemData } = application;
     const { cellData } = inputData;
@@ -20,7 +19,8 @@ function calculateSystemSpecs(application, inputData) {
     // パック容量(kWh)
     const packCapacity = moduleCapacity * packData.modulesPerPack;
     // システム体積(L) (モジュール体積の合計×1.7倍)
-    const systemVolume = moduleVolume * packData.modulesPerPack * systemData.packsPerSystem * 1.7;
+    const systemVolume =
+      moduleVolume * packData.modulesPerPack * systemData.packsPerSystem * 1.7;
     // システム電圧(V)
     const systemVoltage = packVoltage * systemData.packsInSeries;
     // システム容量(kWh)
@@ -41,7 +41,6 @@ function calculateSystemSpecs(application, inputData) {
     };
   }
   
-  // システムの仕様からコストを計算する
   function calculateBatteryCosts(application, systemSpecs, inputData) {
     const { systemData } = application;
     const { moduleVolume } = systemSpecs;
@@ -56,11 +55,11 @@ function calculateSystemSpecs(application, inputData) {
   
     const moduleCost =
       (socController +
-       moduleTerminal +
-       otherComponents +
-       gasValve +
-       interconnection +
-       processingCostModule) * inputData.exchangeRate;
+        moduleTerminal +
+        otherComponents +
+        gasValve +
+        interconnection +
+        processingCostModule) * inputData.exchangeRate;
   
     // パックコスト[ドル/パック]
     const currentVoltageSensing = 100;
@@ -78,25 +77,24 @@ function calculateSystemSpecs(application, inputData) {
   
     const packCost =
       (currentVoltageSensing +
-       temperatureControlSystem +
-       batteryTerminal +
-       busBarsPerModuleRow +
-       batteryJacket +
-       moduleControl +
-       automaticBatteryDisconnect +
-       manualBatteryDisconnect +
-       parallelModulesPacks +
-       acSystemAddition +
-       cellHeaterSystem +
-       processingCostPack) * inputData.exchangeRate;
+        temperatureControlSystem +
+        batteryTerminal +
+        busBarsPerModuleRow +
+        batteryJacket +
+        moduleControl +
+        automaticBatteryDisconnect +
+        manualBatteryDisconnect +
+        parallelModulesPacks +
+        acSystemAddition +
+        cellHeaterSystem +
+        processingCostPack) * inputData.exchangeRate;
   
     return {
       moduleCost, // [円/モジュール]
-      packCost,  // [円/パック]
+      packCost, // [円/パック]
     };
   }
   
-  // モニタリングコストを計算する
   function calculateMonitoringCost(application, systemSpecs, inputData) {
     const { yearsOfUse, moduleData, packData, systemData } = application;
     const { monitoringCostOpPerYear, monitoringCostMargin } = inputData;
@@ -104,52 +102,64 @@ function calculateSystemSpecs(application, inputData) {
   
     let monitoringUnitCount;
     switch (systemData.monitoringUnit) {
-      case "セル":
+      case 'セル':
         monitoringUnitCount =
           moduleData.cellsPerModule *
           packData.modulesPerPack *
           systemData.packsPerSystem;
         break;
-      case "モジュール":
+      case 'モジュール':
         monitoringUnitCount =
           packData.modulesPerPack * systemData.packsPerSystem;
         break;
-      case "パック":
+      case 'パック':
         monitoringUnitCount = systemData.packsPerSystem;
         break;
-      case "システム":
+      case 'システム':
         monitoringUnitCount = 1;
         break;
       default:
-        throw new Error("Invalid monitoring unit.");
+        throw new Error('Invalid monitoring unit.');
     }
   
     const monitoringCostPerKWh =
-      (monitoringUnitCount * monitoringCostOpPerYear) * yearsOfUse /
+      (monitoringUnitCount * monitoringCostOpPerYear * yearsOfUse) /
       systemCapacity /
       monitoringCostMargin;
   
     return monitoringCostPerKWh; // [円/(kWh)]
   }
   
-  // kWhあたりの各コストを計算する
   function calculateTotalCostPerKWh(application, inputData) {
     const systemSpecs = calculateSystemSpecs(application, inputData);
     const { systemData, packData } = application;
     const { systemCapacity } = systemSpecs;
   
-    const BatteryCosts = calculateBatteryCosts(application, systemSpecs, inputData);
-    const monitoringCostPerKWh = calculateMonitoringCost(application, systemSpecs, inputData);
+    const BatteryCosts = calculateBatteryCosts(
+      application,
+      systemSpecs,
+      inputData
+    );
+    const monitoringCostPerKWh = calculateMonitoringCost(
+      application,
+      systemSpecs,
+      inputData
+    );
   
     // セルコスト
     const cellCostPerKWh = inputData.cellData.pricePerKWh;
     // モジュール製造コスト
-    const moduleCostPerKWh = BatteryCosts.moduleCost * systemData.packsPerSystem * packData.modulesPerPack / systemCapacity;
+    const moduleCostPerKWh =
+      (BatteryCosts.moduleCost *
+        systemData.packsPerSystem *
+        packData.modulesPerPack) /
+      systemCapacity;
     // パック製造コスト
-    const packCostPerKWh = BatteryCosts.packCost * systemData.packsPerSystem / systemCapacity;
+    const packCostPerKWh =
+      (BatteryCosts.packCost * systemData.packsPerSystem) / systemCapacity;
     // PCSコスト
-    const pcsCostPerKWh = systemData.pcsCostPerKWh;  // 新品
-    const pcsCostCascadePerKWh = systemData.pcsCostCascadePerKWh;  // カスケード（量産効果が出ずコスト増を想定）
+    const pcsCostPerKWh = systemData.pcsCostPerKWh; // 新品
+    const pcsCostCascadePerKWh = systemData.pcsCostCascadePerKWh; // カスケード（量産効果が出ずコスト増を想定）
     // 工事費
     const constructionCostPerKWh = systemData.constructionCostPerKWh;
     // その他コスト
@@ -167,45 +177,93 @@ function calculateSystemSpecs(application, inputData) {
     };
   }
   
-  // 再構成コストを計算する
-  function calculateReconfigurationCostPerKWh(primaryApplication, secondaryApplication, inputData) {
-    const { moduleData: primaryModuleData, packData: primaryPackData, systemData: primarySystemData } = primaryApplication;
-    const { moduleData: secondaryModuleData, packData: secondaryPackData, systemData: secondarySystemData } = secondaryApplication;
-    const secondarySystemSpecs = calculateSystemSpecs(secondaryApplication, inputData);
+  function calculateReconfigurationCostPerKWh(
+    primaryApplication,
+    secondaryApplication,
+    inputData
+  ) {
+    const {
+      moduleData: primaryModuleData,
+      packData: primaryPackData,
+      systemData: primarySystemData,
+    } = primaryApplication;
+    const {
+      moduleData: secondaryModuleData,
+      packData: secondaryPackData,
+      systemData: secondarySystemData,
+    } = secondaryApplication;
+    const secondarySystemSpecs = calculateSystemSpecs(
+      secondaryApplication,
+      inputData
+    );
   
     let reconfigurationCost = 0;
   
     if (
-      primaryModuleData.cellsPerModule === secondaryModuleData.cellsPerModule &&
-      primaryModuleData.cellsInSeries === secondaryModuleData.cellsInSeries &&
-      primaryPackData.modulesPerPack === secondaryPackData.modulesPerPack &&
-      primaryPackData.modulesInSeries === secondaryPackData.modulesInSeries
+      primaryModuleData.cellsPerModule ===
+        secondaryModuleData.cellsPerModule &&
+      primaryModuleData.cellsInSeries ===
+        secondaryModuleData.cellsInSeries &&
+      primaryPackData.modulesPerPack ===
+        secondaryPackData.modulesPerPack &&
+      primaryPackData.modulesInSeries ===
+        secondaryPackData.modulesInSeries
     ) {
       reconfigurationCost = 0;
     } else if (
-      primaryModuleData.cellsPerModule === secondaryModuleData.cellsPerModule &&
+      primaryModuleData.cellsPerModule ===
+        secondaryModuleData.cellsPerModule &&
       primaryModuleData.cellsInSeries === secondaryModuleData.cellsInSeries
     ) {
-      reconfigurationCost = calculateBatteryCosts(secondaryApplication, secondarySystemSpecs, inputData).packCost * secondarySystemData.packsPerSystem;
+      reconfigurationCost =
+        calculateBatteryCosts(
+          secondaryApplication,
+          secondarySystemSpecs,
+          inputData
+        ).packCost * secondarySystemData.packsPerSystem;
     } else {
-      reconfigurationCost = calculateBatteryCosts(secondaryApplication, secondarySystemSpecs, inputData).packCost * secondarySystemData.packsPerSystem +
-                            calculateBatteryCosts(secondaryApplication, secondarySystemSpecs, inputData).moduleCost * secondarySystemData.packsPerSystem * secondaryPackData.modulesPerPack;
+      reconfigurationCost =
+        calculateBatteryCosts(
+          secondaryApplication,
+          secondarySystemSpecs,
+          inputData
+        ).packCost * secondarySystemData.packsPerSystem +
+        calculateBatteryCosts(
+          secondaryApplication,
+          secondarySystemSpecs,
+          inputData
+        ).moduleCost *
+          secondarySystemData.packsPerSystem *
+          secondaryPackData.modulesPerPack;
     }
   
-    const reconfigurationCostPerKWh = reconfigurationCost / secondarySystemSpecs.systemCapacity;
+    const reconfigurationCostPerKWh =
+      reconfigurationCost / secondarySystemSpecs.systemCapacity;
   
     return reconfigurationCostPerKWh;
   }
-
-  // 1次利用・2次利用それぞれのコストを計算する
-  function calculatePrimaryAndSecondaryCosts(primaryApplication, secondaryApplication, inputData) {
-
-  // 蓄電池コスト
-    const primaryCosts = calculateTotalCostPerKWh(primaryApplication, inputData);
-    const secondaryCosts = calculateTotalCostPerKWh(secondaryApplication, inputData);
-      
-    primaryCosts.batteryCostPerKWh = primaryCosts.cellCostPerKWh + primaryCosts.moduleCostPerKWh + primaryCosts.packCostPerKWh;
-    secondaryCosts.batteryCostPerKWh = secondaryCosts.cellCostPerKWh + secondaryCosts.moduleCostPerKWh + secondaryCosts.packCostPerKWh;
   
-    return {primaryCosts, secondaryCosts};
+  function calculatePrimaryAndSecondaryCosts(
+    primaryApplication,
+    secondaryApplication,
+    inputData
+  ) {
+    // 蓄電池コスト
+    const primaryCosts = calculateTotalCostPerKWh(primaryApplication, inputData);
+    const secondaryCosts = calculateTotalCostPerKWh(
+      secondaryApplication,
+      inputData
+    );
+  
+    primaryCosts.batteryCostPerKWh =
+      primaryCosts.cellCostPerKWh +
+      primaryCosts.moduleCostPerKWh +
+      primaryCosts.packCostPerKWh;
+    secondaryCosts.batteryCostPerKWh =
+      secondaryCosts.cellCostPerKWh +
+      secondaryCosts.moduleCostPerKWh +
+      secondaryCosts.packCostPerKWh;
+  
+    return { primaryCosts, secondaryCosts };
   }
+  

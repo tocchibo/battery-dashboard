@@ -1,5 +1,3 @@
-// sliders.js
-
 const initialValues = {};
 
 // スライダーを作成する関数
@@ -50,9 +48,13 @@ function createSlider(key, setting, container) {
 function initializeSliderValue(key, setting, slider) {
   let selectedApplication = null;
   if (setting.category === 'primary') {
-    selectedApplication = inputData.applications.find(app => app.name === document.getElementById('primaryUse').value);
+    selectedApplication = inputData.applications.find(
+      (app) => app.name === document.getElementById('primaryUse').value
+    );
   } else if (setting.category === 'secondary') {
-    selectedApplication = inputData.applications.find(app => app.name === document.getElementById('secondaryUse').value);
+    selectedApplication = inputData.applications.find(
+      (app) => app.name === document.getElementById('secondaryUse').value
+    );
   }
 
   if (selectedApplication && setting.dataProperty) {
@@ -66,44 +68,50 @@ function initializeSliderValue(key, setting, slider) {
 
   initialValues[key] = setting.value;
   slider.value = setting.value;
-  document.getElementById(key + '-input').value = numberToLocalizedString(setting.value);
+  document.getElementById(key + '-input').value = numberToLocalizedString(
+    setting.value
+  );
   updateDifferenceDisplay(key, setting.value, setting.value);
 
   const initialValue = parseFloat(slider.value);
-  const thumbWidth = $(slider).css('--thumb-width') ? parseFloat($(slider).css('--thumb-width')) : 20;
+  const thumbWidth = $(slider).css('--thumb-width')
+    ? parseFloat($(slider).css('--thumb-width'))
+    : 20;
   const sliderWidth = slider.offsetWidth;
   const sliderRange = slider.max - slider.min;
   const valueRange = initialValue - slider.min;
   const thumbPosition = (valueRange / sliderRange) * (sliderWidth - thumbWidth);
-  const initialPosition = thumbPosition + (thumbWidth / 2);
-  
+  const initialPosition = thumbPosition + thumbWidth / 2;
+
   $(slider).next('.range_active').css({
-    'left': initialPosition + 'px',
-    'width': 0
+    left: initialPosition + 'px',
+    width: 0,
   });
 
-  $(slider).on('input', function() {
+  $(slider).on('input', function () {
     const rangePercent = parseFloat($(this).val());
     const valueRange = rangePercent - slider.min;
     const thumbPosition = (valueRange / sliderRange) * (sliderWidth - thumbWidth);
-    const currentPosition = thumbPosition + (thumbWidth / 2);
+    const currentPosition = thumbPosition + thumbWidth / 2;
 
     if (rangePercent > initialValue) {
       $(this).next('.range_active').css({
-        'left': initialPosition + 'px',
-        'width': (currentPosition - initialPosition) + 'px'
+        left: initialPosition + 'px',
+        width: currentPosition - initialPosition + 'px',
       });
     } else if (rangePercent < initialValue) {
       $(this).next('.range_active').css({
-        'left': currentPosition + 'px',
-        'width': (initialPosition - currentPosition) + 'px'
+        left: currentPosition + 'px',
+        width: initialPosition - currentPosition + 'px',
       });
     } else {
       $(this).next('.range_active').css({
-        'width': 0
+        width: 0,
       });
     }
-    document.getElementById(key + '-input').value = numberToLocalizedString(rangePercent);
+    document.getElementById(key + '-input').value = numberToLocalizedString(
+      rangePercent
+    );
     updateDifferenceDisplay(key, rangePercent, initialValues[key]);
     updateInputDataFromSliders();
     updatePlots();
@@ -136,11 +144,18 @@ function handleInputChange(key, setting) {
 function updateDifferenceDisplay(key, currentValue, initialValue) {
   const setting = settings.sliders[key];
   const difference = (currentValue - initialValue).toFixed(2);
-  const formattedDifference = `${numberToLocalizedString(difference)}${setting.percentage ? '%' : ''}`;
-  
+  const formattedDifference = `${numberToLocalizedString(difference)}${
+    setting.percentage ? '%' : ''
+  }`;
+
   const valueSpan = document.getElementById(key + '-value');
   valueSpan.textContent = difference !== '0.00' ? formattedDifference : '';
-  valueSpan.style.color = parseFloat(difference) > 0 ? 'blue' : (parseFloat(difference) < 0 ? 'red' : 'inherit');
+  valueSpan.style.color =
+    parseFloat(difference) > 0
+      ? 'blue'
+      : parseFloat(difference) < 0
+      ? 'red'
+      : 'inherit';
 }
 
 // スライダーを作成する関数
@@ -155,7 +170,7 @@ function createSliders() {
 
   const sliderSettings = settings.sliders;
 
-  Object.keys(sliderSettings).forEach(key => {
+  Object.keys(sliderSettings).forEach((key) => {
     const setting = sliderSettings[key];
     let container;
 
@@ -178,6 +193,10 @@ function createSliders() {
     initializeSliderValue(key, setting, slider);
 
     slider.oninput = handleSliderInput.bind(slider, key, setting);
-    document.getElementById(key + '-input').oninput = handleInputChange.bind(document.getElementById(key + '-input'), key, setting);
+    document.getElementById(key + '-input').oninput = handleInputChange.bind(
+      document.getElementById(key + '-input'),
+      key,
+      setting
+    );
   });
 }
