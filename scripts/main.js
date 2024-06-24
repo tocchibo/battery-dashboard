@@ -26,21 +26,10 @@ function populateDropdowns() {
     createSliders();
     updatePlots();
     updateInfo();
-    document
-      .getElementById('primaryUse')
-      .addEventListener('change', () => updateSliders('primary'));
-    document
-      .getElementById('secondaryUse')
-      .addEventListener('change', () => updateSliders('secondary'));
-    document
-      .getElementById('resetPrimaryButton')
-      .addEventListener('click', () => resetSliders('primary'));
-    document
-      .getElementById('resetSecondaryButton')
-      .addEventListener('click', () => resetSliders('secondary'));
-    document
-      .getElementById('resetCommonButton')
-      .addEventListener('click', () => resetSliders('common'));
+
+    document.getElementById('resetPrimaryButton').addEventListener('click', () => resetSliders('primary'));
+    document.getElementById('resetSecondaryButton').addEventListener('click', () => resetSliders('secondary'));
+    document.getElementById('resetCommonButton').addEventListener('click', () => resetSliders('common'));
   }
   
   init();

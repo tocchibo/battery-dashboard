@@ -200,3 +200,30 @@ function createSliders() {
     );
   });
 }
+
+function resetSliders(category) {
+  Object.keys(settings.sliders).forEach((key) => {
+    const setting = settings.sliders[key];
+    if (setting.category === category || category === 'common') {
+      const slider = document.getElementById(key + '-slider');
+      const input = document.getElementById(key + '-input');
+      
+      if (slider && input) {
+        slider.value = setting.value;
+        input.value = numberToLocalizedString(setting.value);
+        updateDifferenceDisplay(key, setting.value, initialValues[key]);
+        
+        // レンジアクティブの位置をリセット
+        const rangeActive = slider.nextElementSibling;
+        if (rangeActive && rangeActive.classList.contains('range_active')) {
+          rangeActive.style.width = '0px';
+          rangeActive.style.left = slider.offsetWidth / 2 + 'px';
+        }
+      }
+    }
+  });
+  
+  updateInputDataFromSliders();
+  updatePlots();
+  updateInfo();
+}
