@@ -30,6 +30,7 @@ function populateDropdowns() {
     document.getElementById('resetPrimaryButton').addEventListener('click', () => resetSliders('primary'));
     document.getElementById('resetSecondaryButton').addEventListener('click', () => resetSliders('secondary'));
     document.getElementById('resetCommonButton').addEventListener('click', () => resetSliders('common'));
+    window.addEventListener('resize', updateSliderRanges);
   }
   
   init();

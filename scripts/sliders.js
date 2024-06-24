@@ -125,6 +125,7 @@ function handleSliderInput(key, setting) {
   updateDifferenceDisplay(key, value, initialValues[key]);
   updateInputDataFromSliders();
   updatePlots();
+  updateSliderRanges();
 }
 
 // 入力欄の入力イベントハンドラ
@@ -199,6 +200,9 @@ function createSliders() {
       setting
     );
   });
+
+  updateSliderRanges();
+
 }
 
 function resetSliders(category) {
@@ -226,4 +230,40 @@ function resetSliders(category) {
   updateInputDataFromSliders();
   updatePlots();
   updateInfo();
+}
+
+function updateSliderRanges() {
+  Object.keys(settings.sliders).forEach((key) => {
+    const slider = document.getElementById(key + '-slider');
+    if (slider) {
+      const value = parseFloat(slider.value);
+      const initialValue = initialValues[key];
+      const thumbWidth = parseFloat(getComputedStyle(slider).getPropertyValue('--thumb-width')) || 20;
+      const sliderWidth = slider.offsetWidth;
+      const sliderRange = slider.max - slider.min;
+      
+      const valueRange = value - slider.min;
+      const initialValueRange = initialValue - slider.min;
+      
+      const thumbPosition = (valueRange / sliderRange) * (sliderWidth - thumbWidth);
+      const initialPosition = (initialValueRange / sliderRange) * (sliderWidth - thumbWidth);
+      
+      const currentPosition = thumbPosition + thumbWidth / 2;
+      const initialThumbPosition = initialPosition + thumbWidth / 2;
+
+      const rangeActive = slider.nextElementSibling;
+      if (rangeActive && rangeActive.classList.contains('range_active')) {
+        if (value > initialValue) {
+          rangeActive.style.left = initialThumbPosition + 'px';
+          rangeActive.style.width = (currentPosition - initialThumbPosition) + 'px';
+        } else if (value < initialValue) {
+          rangeActive.style.left = currentPosition + 'px';
+          rangeActive.style.width = (initialThumbPosition - currentPosition) + 'px';
+        } else {
+          rangeActive.style.width = '0px';
+          rangeActive.style.left = currentPosition + 'px';
+        }
+      }
+    }
+  });
 }
